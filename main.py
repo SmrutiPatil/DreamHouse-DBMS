@@ -66,12 +66,19 @@ class Login_Page(tk.Frame):
             # Creating a new window for staff registration
             staff_reg_window = tk.Toplevel(self.master)
             staff_reg_window.title("Staff Registration Form")
-            staff_reg_window.geometry("600x500")
+            staff_reg_window.geometry("600x400")
             staff_reg_window.resizable(False, False)
+
+            # Frame for staff registration heading
+            staff_heading=tk.Frame(staff_reg_window)
+            staff_heading.grid(row=0, column=0, columnspan=4, padx=10, sticky="nsew")
+
+            staff_heading_title = tk.Label(staff_heading, text="Staff Registration Form", font=("Helvetica", 15), bg="#614051", fg="white", width=50)
+            staff_heading_title.pack(pady=20)
 
             #frame 1 for staff personal details
             staff_f1= tk.Frame(staff_reg_window)
-            staff_f1.pack(side="left", anchor="nw")
+            staff_f1.grid(row=1, column=0)
 
             # staff name
             staff_name_label = tk.Label(staff_f1, text="Staff Name:", font=("Helvetica", 10))
@@ -97,8 +104,8 @@ class Login_Page(tk.Frame):
             dob_label = tk.Label(staff_f1, text="Date of Birth:", font=("Helvetica", 10))
             dob_label.grid(row=2, column=0)
 
-            self.dob_entry = DateEntry(staff_f1, width=12, background='darkblue',foreground='white', date_pattern='yyyy-mm-dd')
-            self.dob_entry.grid(row=2, column=1)
+            dob_entry = DateEntry(staff_f1, width=12, background='darkblue',foreground='white', date_pattern='yyyy-mm-dd')
+            dob_entry.grid(row=2, column=1)
 
             # staff salary
             dob_label = tk.Label(staff_f1, text="Salary:", font=("Helvetica", 10))
@@ -109,9 +116,16 @@ class Login_Page(tk.Frame):
             staff_name_entry = tk.Entry(staff_f1, width=30, textvariable=salaryval)
             staff_name_entry.grid(column=1, row=3)
 
+            # postion
+            branch_name_label = tk.Label(staff_f1, text="Position:", font=("Helvetica", 10))
+            branch_name_label.grid(column=0, row=4)
+
+            branch_name_entry = tk.Entry(staff_f1, width=30)
+            branch_name_entry.grid(column=1, row=4)
+
             # frame 2 for branch details of staff
             staff_f2= tk.Frame(staff_reg_window)
-            staff_f2.pack(side="right", anchor="ne")
+            staff_f2.grid(row=1, column=1, padx=10)
             
             # branch number
             branch_name_label = tk.Label(staff_f2, text="Branch Number:", font=("Helvetica", 10))
@@ -135,9 +149,35 @@ class Login_Page(tk.Frame):
             branch_num_entry = tk.Entry(staff_f2, width=30, textvariable=branch_num_val)
             branch_num_entry.grid(column=1, row=2)
 
+            # frame 3 for branch details of staff
+            staff_f3= tk.Frame(staff_reg_window)
+            staff_f3.grid(row=3, column=0, pady=10)
+
+            staff_opt_details_label= tk.Label(staff_f3, text="Enter details where applicable:", font=("Helvetica", 10))
+            staff_opt_details_label.grid(row=0, column=0, padx=10, pady=15)
+
+            branch_mngDate_label = tk.Label(staff_f3, text="Manager Start Date:", font=("Helvetica", 10))
+            branch_mngDate_label.grid(column=0, row=1, padx=5)
+
+            mngDate_entry = DateEntry(staff_f3, width=12, background='darkblue',foreground='white', date_pattern='yyyy-mm-dd')
+            mngDate_entry.grid(row=1, column=1)
+
+            branch_mngBonus_label = tk.Label(staff_f3, text="Manager Bonus:", font=("Helvetica", 10))
+            branch_mngBonus_label.grid(column=0, row=2)
+            
+            mngBonusval=tk.IntVar()
+            branch_mngBonus_entry = tk.Entry(staff_f3, width=15, textvariable=mngBonusval)
+            branch_mngBonus_entry.grid(column=1, row=2)
+
+            sup_name_label = tk.Label(staff_f3, text="Supervisor Name:", font=("Helvetica", 10))
+            sup_name_label.grid(column=0, row=3)
+            
+            branch_mngBonus_entry = tk.Entry(staff_f3, width=15)
+            branch_mngBonus_entry.grid(column=1, row=3)
+
             # Creating a button to submit staff registration
-            # submit_button = tk.Button(staff_reg_window, text="Submit", font=("Helvetica", 12))
-            # submit_button.grid(column=0, row=3)
+            submit_button = tk.Button(staff_reg_window, text="Submit", font=("Helvetica", 12))
+            submit_button.grid(row=4, column=0,columnspan=2, pady=15)
 
 if __name__ == "__main__":
     root = tk.Tk()
