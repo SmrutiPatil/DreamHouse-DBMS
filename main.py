@@ -3,7 +3,7 @@ from tkinter import ttk
 from tkinter import messagebox
 from tkcalendar import *
 
-class Login_Page(tk.Frame):
+class DreamHouse(tk.Frame):
     def __init__(self, master):
         super().__init__(master)
 
@@ -68,7 +68,7 @@ class Login_Page(tk.Frame):
             staff_reg_window.title("Staff Registration Form")
             staff_reg_window.geometry("600x400")
             staff_reg_window.resizable(False, False)
-
+            
             # Frame for staff registration heading
             staff_heading=tk.Frame(staff_reg_window)
             staff_heading.grid(row=0, column=0, columnspan=4, padx=10, sticky="nsew")
@@ -176,11 +176,67 @@ class Login_Page(tk.Frame):
             branch_mngBonus_entry.grid(column=1, row=3)
 
             # Creating a button to submit staff registration
-            submit_button = tk.Button(staff_reg_window, text="Submit", font=("Helvetica", 12))
+            submit_button = tk.Button(staff_reg_window, text="Submit", font=("Helvetica", 12), command=self.staffDashboard)
             submit_button.grid(row=4, column=0,columnspan=2, pady=15)
 
+    def staffDashboard(self):
+        # Creating a new window for staff registration
+        staff_dash_window = tk.Toplevel(self.master)
+        staff_dash_window.title("Staff Dashboard")
+        staff_dash_window.geometry("600x400")
+        staff_dash_window.resizable(False, False)
+        # Frame for staff registration heading
+        staff_heading=tk.Frame(staff_dash_window)
+        staff_heading.grid(row=0, column=0, columnspan=4, padx=10, sticky="nsew")
+
+        staff_heading_title = tk.Label(staff_heading, text="Staff Dashboard", font=("Helvetica", 15),   bg="#614051", fg="white", width=50)
+        staff_heading_title.pack(pady=20)
+
+        # frame 1 for branch details
+        staff_f1= tk.Frame(staff_dash_window)
+        staff_f1.grid(row=1, column=0, padx=10)
+            
+        # branch number
+        branch_name_label = tk.Label(staff_f1, text="Branch Number:", font=("Helvetica", 10))
+        branch_name_label.grid(column=0, row=0)
+
+        branch_name_entry = tk.Entry(staff_f1, width=30)
+        branch_name_entry.grid(column=1, row=0)
+
+        # branch address
+        branch_addr_label = tk.Label(staff_f1, text="Branch Address:", font=("Helvetica", 10))
+        branch_addr_label.grid(column=2, row=0)
+
+        branch_addr_entry = tk.Entry(staff_f1, width=30)
+        branch_addr_entry.grid(column=3, row=0)
+
+        # branch numbers
+        branch_num_val = tk.IntVar()
+        branch_num_label = tk.Label(staff_f1, text="Telephone Number:", font=("Helvetica", 10))
+        branch_num_label.grid(column=0, row=1)
+
+        branch_num_entry = tk.Entry(staff_f1, width=30, textvariable=branch_num_val)
+        branch_num_entry.grid(column=1, row=1)
+
+        # frame 2 for branch details
+        staff_f2= tk.Frame(staff_dash_window)
+        staff_f2.grid(row=2, column=0, pady=15)
+
+        # Staff Numbers
+        branch_name_label = tk.Label(staff_f2, text="Staff Number", font=("Helvetica", 10, "bold"))
+        branch_name_label.grid(column=0, row=0, padx=50)
+
+        # Staff Numbers
+        branch_name_label = tk.Label(staff_f2, text="Name", font=("Helvetica", 10,"bold"))
+        branch_name_label.grid(column=2, row=0, padx=50)
+
+        # Staff Numbers
+        branch_name_label = tk.Label(staff_f2, text="Position", font=("Helvetica", 10,"bold"))
+        branch_name_label.grid(column=3, row=0, padx=50)
+
+                
 if __name__ == "__main__":
     root = tk.Tk()
-    login_page = Login_Page(root)
+    login_page = DreamHouse(root)
     login_page.pack()
     root.mainloop()
