@@ -3,9 +3,11 @@ from tkinter import ttk
 from tkinter import messagebox
 from tkcalendar import *
 from loginRegister import validateUser
+from com_function import connect
 
 from staffListing import staffListing
 from propertyRegisteredStaff import propertyList
+from lease import viewlease, leaseform
 
 class DreamHouse(tk.Frame):
     def __init__(self, master):
@@ -86,7 +88,6 @@ class DreamHouse(tk.Frame):
             staff_reg_window.geometry("600x400")
             staff_reg_window.resizable(False, False)
             
-            staff_details = []
             
             # Frame for staff registration heading
             staff_heading=tk.Frame(staff_reg_window)
@@ -98,6 +99,7 @@ class DreamHouse(tk.Frame):
             #frame 1 for staff personal details
             staff_f1= tk.Frame(staff_reg_window)
             staff_f1.grid(row=1, column=0)
+     
 
             # staff name
             staff_name_label = tk.Label(staff_f1, text="Staff Name:", font=("Helvetica", 10))
@@ -127,6 +129,7 @@ class DreamHouse(tk.Frame):
             dob_entry = DateEntry(staff_f1, width=12, background='darkblue',foreground='white', date_pattern='yyyy-mm-dd')
             dob_entry.grid(row=2, column=1)
 
+            
             # staff salary
             dob_label = tk.Label(staff_f1, text="Salary:", font=("Helvetica", 10))
             dob_label.grid(row=3, column=0)
@@ -135,6 +138,7 @@ class DreamHouse(tk.Frame):
 
             staff_salary_entry = tk.Entry(staff_f1, width=30, textvariable=salaryval)
             staff_salary_entry.grid(column=1, row=3)
+            
 
             # postion
             position_label = tk.Label(staff_f1, text="Position:", font=("Helvetica", 10))
@@ -142,6 +146,7 @@ class DreamHouse(tk.Frame):
 
             position_entry = tk.Entry(staff_f1, width=30)
             position_entry.grid(column=1, row=4)
+            
 
             # frame 2 for branch details of staff
             staff_f2= tk.Frame(staff_reg_window)
@@ -160,6 +165,7 @@ class DreamHouse(tk.Frame):
 
             branch_no_entry = tk.Entry(staff_f2, width=30)
             branch_no_entry.grid(column=1, row=1)
+        
 
             # branch address
             branch_addr_label = tk.Label(staff_f2, text="Branch Address:", font=("Helvetica", 10))
@@ -175,6 +181,7 @@ class DreamHouse(tk.Frame):
 
             branch_pnum_entry = tk.Entry(staff_f2, width=30, textvariable=branch_pnum_val)
             branch_pnum_entry.grid(column=1, row=3)
+            
 
             # frame 3 for branch details of staff
             staff_f3= tk.Frame(staff_reg_window)
@@ -201,9 +208,20 @@ class DreamHouse(tk.Frame):
             
             branch_mngBonus_entry = tk.Entry(staff_f3, width=15)
             branch_mngBonus_entry.grid(column=1, row=3)
+            
+            def registerStaff(id, staff_f1, staff_f2):
+                db = connect()
+                dbCursor = db.cursor()
+                args = [id, staff_name_entry.get(), staff_sex_var.get(), dob_entry.get(), salaryval.get(), position_entry.get(), branch_no_entry.get()]
+                query = f"""INSERT INTO staff (staff_number, staff_name, sex, dob, salary, branch_number, position) 
+                                VALUES ("{args[0]}", "{args[1]}", "{args[2]}", "{args[3]}", "{args[4]}", "{args[6]}", "{args[5]}")"""
+                print(query)
+                dbCursor.execute(query)
+                db.commit()
 
             # Creating a button to submit staff registration
-            submit_button = tk.Button(staff_reg_window, text="Submit", font=("Helvetica", 12), command=self.staffDashboard)
+            submit_button = tk.Button(staff_reg_window, text="Submit", font=("Helvetica", 12), command=(self.staffDashboard))
+            submit_button.bind("<Button-1>", lambda event: registerStaff(id, staff_f1, staff_f2))
             submit_button.grid(row=4, column=0,columnspan=2, pady=15)
 
         if role == "Client":
@@ -294,7 +312,7 @@ class DreamHouse(tk.Frame):
             datereg_entry.grid(column=1, row=3)
 
             # Creating a button to submit client details
-            submit_button = tk.Button(client_reg_window, text="Submit", font=("Helvetica", 12), command=self.clientDashboard())
+            submit_button = tk.Button(client_reg_window, text="Submit", font=("Helvetica", 12), command=self.clientDashboard)
             submit_button.grid(row=4, column=0,columnspan=2, pady=15)
 
         if role == "Owner":
@@ -330,38 +348,50 @@ class DreamHouse(tk.Frame):
             owner_name_entry = tk.Entry(ownerDetailsFrame, width=20)
             owner_name_entry.grid(row=1, column =1)
             # # owner address
-            owner_addr_label = tk.Label(ownerDetailsFrame, text="Address:", font=("Helvetica", 10))
+            owner_addr_label = tk.Label(ownerDetailsFrame, text="Branch Street:", font=("Helvetica", 10))
             owner_addr_label.grid(row=2, column=0, padx=40)
 
             owner_addr_entry = tk.Entry(ownerDetailsFrame, width=20)
             owner_addr_entry.grid(row=2, column =1)
 
+            owner_addr_label = tk.Label(ownerDetailsFrame, text="Branch City:", font=("Helvetica", 10))
+            owner_addr_label.grid(row=3, column=0, padx=40)
+
+            owner_addr_entry = tk.Entry(ownerDetailsFrame, width=20)
+            owner_addr_entry.grid(row=3, column =1)
+
+            owner_addr_label = tk.Label(ownerDetailsFrame, text="Branch Pincode:", font=("Helvetica", 10))
+            owner_addr_label.grid(row=4, column=0, padx=40)
+
+            owner_addr_entry = tk.Entry(ownerDetailsFrame, width=20)
+            owner_addr_entry.grid(row=4, column =1)
+
             # # telephone no
             owner_tel_val = tk.IntVar()
             owner_addr_label = tk.Label(ownerDetailsFrame, text="Tel No", font=("Helvetica", 10))
-            owner_addr_label.grid(row=3, column=0, padx=40)
+            owner_addr_label.grid(row=6, column=0, padx=40)
 
             owner_addr_entry = tk.Entry(ownerDetailsFrame, width=20, textvariable=owner_tel_val)
-            owner_addr_entry.grid(row=3, column =1)
+            owner_addr_entry.grid(row=6, column =1)
 
             def radio_button_clicked():
                 owner_busiType_label = tk.Label(ownerDetailsFrame, text="Type of Business:", font=("Helvetica", 10))
-                owner_busiType_label.grid(row=5, column=0, padx=40)
+                owner_busiType_label.grid(row=7, column=0, padx=40)
 
                 owner_busiType_entry = tk.Entry(ownerDetailsFrame, width=20)
-                owner_busiType_entry.grid(row=5, column =1) 
+                owner_busiType_entry.grid(row=7, column =1) 
 
                 owner_busiName_label = tk.Label(ownerDetailsFrame, text="Contact Name:", font=("Helvetica", 10))
-                owner_busiName_label.grid(row=6, column=0, padx=40)
+                owner_busiName_label.grid(row=8, column=0, padx=40)
 
                 owner_busiName_entry = tk.Entry(ownerDetailsFrame, width=20)
-                owner_busiName_entry.grid(row=6, column =1)                
+                owner_busiName_entry.grid(row=8, column =1)                
 
             owner_busi_label = tk.Label(ownerDetailsFrame, text="Personal/Business?", font=("Helvetica", 10))
-            owner_busi_label.grid(row=4, column=0, padx=40)
+            owner_busi_label.grid(row=5, column=0, padx=40)
 
             business_radio_frame=tk.Frame(ownerDetailsFrame)
-            business_radio_frame.grid(row=4, column=1)
+            business_radio_frame.grid(row=5, column=1)
             radio_button_yes = tk.Radiobutton(business_radio_frame, text="Yes", value="Y", command=radio_button_clicked)
             radio_button_yes.pack(side="left")
             radio_button_no = tk.Radiobutton(business_radio_frame, text="No", value="N")
@@ -397,27 +427,33 @@ class DreamHouse(tk.Frame):
             branch_no_entry = tk.Entry(staff_f1, width=30)
             branch_no_entry.grid(column=1, row=0)
 
-            staff_details= tk.Button(staff_dash_window, text="Get details")
+            staff_details= tk.Button(staff_dash_window, text="Get details", font=("Helvetica", 10))
             staff_details.grid(column=0, row=3, columnspan=4)
 
             staff_details.bind("<Button-1>", lambda event: staffListing(branch_no_entry, staff_f1, staff_f2))
 
             staff_f2= tk.Frame(staff_dash_window)
-            staff_f2.grid(row=4, column=0, pady=15)    
+            staff_f2.grid(row=4, column=0, pady=15)   
 
         # Buttons
         staff_dash_btns=tk.Frame(staff_dash_window)
         staff_dash_btns.grid(row=1, column=0)
 
-        staff_listing_btn = tk.Button(staff_dash_btns, text="View Staff Listing", command=staffList)
+        staff_listing_btn = tk.Button(staff_dash_btns, text="View Staff Listing", font=("Helvetica", 10),command=staffList)
         staff_listing_btn.grid(row=0, column=0, padx=20, pady=20)
-        property_listing_btn = tk.Button(staff_dash_btns, text="View Property Registered")
+
+        property_listing_btn = tk.Button(staff_dash_btns, text="View Property Registered", font=("Helvetica", 10))
         id = self.getId()
         property_listing_btn.bind("<Button-1>", lambda event: propertyList(id, staff_dash_window))
-
         property_listing_btn.grid(row=0, column=1, padx=20, pady=20)
-        property_listing_btn = tk.Button(staff_dash_btns, text="Lease Form")
-        property_listing_btn.grid(row=0, column=2, padx=20, pady=20)
+
+        lease_btn = tk.Button(staff_dash_btns, text="View Lease", font=("Helvetica", 10))
+        lease_btn.bind("<Button-1>", lambda event:viewlease(id, staff_dash_window))
+        lease_btn.grid(row=0, column=2, padx=20, pady=20)
+
+        lease_btn = tk.Button(staff_dash_btns, text="Lease Form", font=("Helvetica", 10))
+        lease_btn.bind("<Button-1>", lambda event:leaseform(id, staff_dash_window))
+        lease_btn.grid(row=0, column=3, padx=20, pady=20)
     
     def clientDashboard(self):
 
@@ -477,22 +513,35 @@ class DreamHouse(tk.Frame):
             prop_rooms_entry.grid(column=1, row=4)
 
             # Address
-            prop_addr_label = tk.Label(owner_dash_window, text="Address", font=("Helvetica", 10))
-            prop_addr_label.grid(column=0, row=5, pady=15)
-            prop_addr_entry = tk.Entry(owner_dash_window)
-            prop_addr_entry.grid(column=1, row=5, pady=15)
+            prop_addr_label = tk.Label(owner_dash_window, text="Branch Street:", font=("Helvetica", 10))
+            prop_addr_label.grid(row=5, column=0, padx=40)
+
+            prop_addr_entry = tk.Entry(owner_dash_window, width=20)
+            prop_addr_entry.grid(row=5, column =1)
+
+            prop_addr_label = tk.Label(owner_dash_window, text="Branch City:", font=("Helvetica", 10))
+            prop_addr_label.grid(row=6, column=0, padx=40)
+
+            prop_addr_entry = tk.Entry(owner_dash_window, width=20)
+            prop_addr_entry.grid(row=6, column =1)
+
+            prop_addr_label = tk.Label(owner_dash_window, text="Branch Pincode:", font=("Helvetica", 10))
+            prop_addr_label.grid(row=7, column=0, padx=40)
+
+            prop_addr_entry = tk.Entry(owner_dash_window, width=20)
+            prop_addr_entry.grid(row=7, column =1)
 
             # managed by
             prop_staff_label = tk.Label(owner_dash_window, text="Managed by Staff:", font=("Helvetica", 10))
-            prop_staff_label.grid(column=0, row=6)
+            prop_staff_label.grid(column=0, row=8)
             prop_staff_entry = tk.Entry(owner_dash_window)
-            prop_staff_entry.grid(column=1, row=6)
+            prop_staff_entry.grid(column=1, row=8)
 
             # managed by
             prop_branch_label = tk.Label(owner_dash_window, text="Registed at branch:", font=("Helvetica", 10))
-            prop_branch_label.grid(column=0, row=7)
+            prop_branch_label.grid(column=0, row=9)
             prop_branch_entry = tk.Entry(owner_dash_window)
-            prop_branch_entry.grid(column=1, row=7)
+            prop_branch_entry.grid(column=1, row=9)
 
         prop_reg_btn=tk.Button(owner_dash_window, text="Register Property", command=registerProperty)
         prop_reg_btn.grid(row=1, column=0, pady=15)
