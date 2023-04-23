@@ -1,1 +1,1 @@
-        staff_dash_window.resizable(False, False)
+{args[6]}
