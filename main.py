@@ -491,7 +491,7 @@ class DreamHouse(tk.Frame):
             prop_staff_entry = tk.Entry(owner_dash_window)
             prop_staff_entry.grid(column=1, row=6)
 
-            # managed by
+            # registered at branch
             prop_branch_label = tk.Label(owner_dash_window, text="Registed at branch:", font=("Helvetica", 10))
             prop_branch_label.grid(column=0, row=7)
             prop_branch_entry = tk.Entry(owner_dash_window)
