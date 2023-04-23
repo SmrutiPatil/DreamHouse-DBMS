@@ -81,6 +81,8 @@ class DreamHouse(tk.Frame):
             staff_reg_window.geometry("600x400")
             staff_reg_window.resizable(False, False)
             
+            staff_details = []
+            
             # Frame for staff registration heading
             staff_heading=tk.Frame(staff_reg_window)
             staff_heading.grid(row=0, column=0, columnspan=4, padx=10, sticky="nsew")
@@ -107,10 +109,11 @@ class DreamHouse(tk.Frame):
             staff_sex_radio_frame.grid(row=1, column=1)
 
             staff_sex_var = tk.StringVar()
-            staff_sex_male_radio = tk.Radiobutton(staff_sex_radio_frame, text="M", variable=staff_sex_var, value="M")
-            staff_sex_female_radio = tk.Radiobutton(staff_sex_radio_frame, text="F", variable=staff_sex_var, value="F")
+            staff_sex_male_radio = tk.Radiobutton(staff_sex_radio_frame, text="M", variable=staff_sex_var, value="M", command= isClicked)
+            staff_sex_female_radio = tk.Radiobutton(staff_sex_radio_frame, text="F", variable=staff_sex_var, value="F", command= isClicked)
             staff_sex_male_radio.pack(side="left")
             staff_sex_female_radio.pack(side="left")
+        
 
             # staff dob
             dob_label = tk.Label(staff_f1, text="Date of Birth:", font=("Helvetica", 10))
@@ -125,33 +128,33 @@ class DreamHouse(tk.Frame):
 
             salaryval = tk.IntVar()
 
-            staff_name_entry = tk.Entry(staff_f1, width=30, textvariable=salaryval)
-            staff_name_entry.grid(column=1, row=3)
+            staff_salary_entry = tk.Entry(staff_f1, width=30, textvariable=salaryval)
+            staff_salary_entry.grid(column=1, row=3)
 
             # postion
-            branch_name_label = tk.Label(staff_f1, text="Position:", font=("Helvetica", 10))
-            branch_name_label.grid(column=0, row=4)
+            position_label = tk.Label(staff_f1, text="Position:", font=("Helvetica", 10))
+            position_label.grid(column=0, row=4)
 
-            branch_name_entry = tk.Entry(staff_f1, width=30)
-            branch_name_entry.grid(column=1, row=4)
+            position_entry = tk.Entry(staff_f1, width=30)
+            position_entry.grid(column=1, row=4)
 
             # frame 2 for branch details of staff
             staff_f2= tk.Frame(staff_reg_window)
             staff_f2.grid(row=1, column=1, padx=10)
             
             #staff id
-            staff_name_label = tk.Label(staff_f2, text="Staff ID:", font=("Helvetica", 10))
-            staff_name_label.grid(column=0, row=0)
+            staff_id_label = tk.Label(staff_f2, text="Staff ID:", font=("Helvetica", 10))
+            staff_id_label.grid(column=0, row=0)
             
-            staff_name_label = tk.Label(staff_f2, text=id, font=("Helvetica", 10))
-            staff_name_label.grid(column=1, row=0)
+            staff_id_label = tk.Label(staff_f2, text=id, font=("Helvetica", 10))
+            staff_id_label.grid(column=1, row=0)
             
             # branch number
-            branch_name_label = tk.Label(staff_f2, text="Branch Number:", font=("Helvetica", 10))
-            branch_name_label.grid(column=0, row=1)
+            branch_no_label = tk.Label(staff_f2, text="Branch Number:", font=("Helvetica", 10))
+            branch_no_label.grid(column=0, row=1)
 
-            branch_name_entry = tk.Entry(staff_f2, width=30)
-            branch_name_entry.grid(column=1, row=1)
+            branch_no_entry = tk.Entry(staff_f2, width=30)
+            branch_no_entry.grid(column=1, row=1)
 
             # branch address
             branch_addr_label = tk.Label(staff_f2, text="Branch Address:", font=("Helvetica", 10))
@@ -161,12 +164,12 @@ class DreamHouse(tk.Frame):
             branch_addr_entry.grid(column=1, row=2)
 
             # branch numbers
-            branch_num_val = tk.IntVar()
-            branch_num_label = tk.Label(staff_f2, text="Telephone Number:", font=("Helvetica", 10))
-            branch_num_label.grid(column=0, row=3)
+            branch_pnum_val = tk.IntVar()
+            branch_pnum_label = tk.Label(staff_f2, text="Telephone Number:", font=("Helvetica", 10))
+            branch_pnum_label.grid(column=0, row=3)
 
-            branch_num_entry = tk.Entry(staff_f2, width=30, textvariable=branch_num_val)
-            branch_num_entry.grid(column=1, row=3)
+            branch_pnum_entry = tk.Entry(staff_f2, width=30, textvariable=branch_num_val)
+            branch_pnum_entry.grid(column=1, row=3)
 
             # frame 3 for branch details of staff
             staff_f3= tk.Frame(staff_reg_window)
