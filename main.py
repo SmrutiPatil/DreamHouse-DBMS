@@ -8,6 +8,7 @@ from com_function import connect
 from staffListing import staffListing
 from propertyRegisteredStaff import propertyList
 from lease import viewlease, leaseform
+from owner import ownerDashboard
 
 class DreamHouse(tk.Frame):
     def __init__(self, master):
