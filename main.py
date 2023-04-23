@@ -363,7 +363,7 @@ class DreamHouse(tk.Frame):
                 db.commit()
 
             # Creating a button to submit client details
-            submit_button = tk.Button(client_reg_window, text="Submit", font=("Helvetica", 12), command=self.clientDashboard())
+            submit_button = tk.Button(client_reg_window, text="Submit", font=("Helvetica", 12), command=self.clientDashboard)
             submit_button.bind("<Button-1>", lambda event: registerClient(id, clientDetailsFrame, clientRequirementsFrame, client_f3))
             submit_button.grid(row=4, column=0,columnspan=2, pady=15)
 
