@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 from tkcalendar import *
+from loginRegister import validateUser
 
 from staffListing import staffListing
 
@@ -58,13 +59,15 @@ class DreamHouse(tk.Frame):
         id = self.id_entry.get()
 
         # TODO: Check if the ID is valid for the selected role and log in if it is
- 
-        if role == "Staff":
-            self.staffDashboard()
-        elif role == "Client":
-            self.clientDashboard()
-        elif role == "Owner":
-            self.ownerDashboard()
+        flag = validateUser(role, id)
+
+        if flag:
+            if role == "Staff":
+                self.staffDashboard()
+            elif role == "Client":
+                self.clientDashboard()
+            elif role == "Owner":
+                self.ownerDashboard()
 
     def register(self):
         role = self.role_var.get()
@@ -136,27 +139,34 @@ class DreamHouse(tk.Frame):
             staff_f2= tk.Frame(staff_reg_window)
             staff_f2.grid(row=1, column=1, padx=10)
             
+            #staff id
+            staff_name_label = tk.Label(staff_f2, text="Staff ID:", font=("Helvetica", 10))
+            staff_name_label.grid(column=0, row=0)
+            
+            staff_name_label = tk.Label(staff_f2, text=id, font=("Helvetica", 10))
+            staff_name_label.grid(column=1, row=0)
+            
             # branch number
             branch_name_label = tk.Label(staff_f2, text="Branch Number:", font=("Helvetica", 10))
-            branch_name_label.grid(column=0, row=0)
+            branch_name_label.grid(column=0, row=1)
 
             branch_name_entry = tk.Entry(staff_f2, width=30)
-            branch_name_entry.grid(column=1, row=0)
+            branch_name_entry.grid(column=1, row=1)
 
             # branch address
             branch_addr_label = tk.Label(staff_f2, text="Branch Address:", font=("Helvetica", 10))
-            branch_addr_label.grid(column=0, row=1)
+            branch_addr_label.grid(column=0, row=2)
 
             branch_addr_entry = tk.Entry(staff_f2, width=30)
-            branch_addr_entry.grid(column=1, row=1)
+            branch_addr_entry.grid(column=1, row=2)
 
             # branch numbers
             branch_num_val = tk.IntVar()
             branch_num_label = tk.Label(staff_f2, text="Telephone Number:", font=("Helvetica", 10))
-            branch_num_label.grid(column=0, row=2)
+            branch_num_label.grid(column=0, row=3)
 
             branch_num_entry = tk.Entry(staff_f2, width=30, textvariable=branch_num_val)
-            branch_num_entry.grid(column=1, row=2)
+            branch_num_entry.grid(column=1, row=3)
 
             # frame 3 for branch details of staff
             staff_f3= tk.Frame(staff_reg_window)
