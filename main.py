@@ -114,8 +114,8 @@ class DreamHouse(tk.Frame):
             staff_sex_radio_frame.grid(row=1, column=1)
 
             staff_sex_var = tk.StringVar()
-            staff_sex_male_radio = tk.Radiobutton(staff_sex_radio_frame, text="M", variable=staff_sex_var, value="M", command= isClicked)
-            staff_sex_female_radio = tk.Radiobutton(staff_sex_radio_frame, text="F", variable=staff_sex_var, value="F", command= isClicked)
+            staff_sex_male_radio = tk.Radiobutton(staff_sex_radio_frame, text="M", variable=staff_sex_var, value="M")
+            staff_sex_female_radio = tk.Radiobutton(staff_sex_radio_frame, text="F", variable=staff_sex_var, value="F")
             staff_sex_male_radio.pack(side="left")
             staff_sex_female_radio.pack(side="left")
         
@@ -207,7 +207,7 @@ class DreamHouse(tk.Frame):
             submit_button.grid(row=4, column=0,columnspan=2, pady=15)
 
         if role == "Client":
-            # Creating a new window for staff registration
+            # Creating a new window for client registration
             client_reg_window = tk.Toplevel(self.master)
             client_reg_window.title("Client Registration Form")
             client_reg_window.geometry("650x350")
@@ -420,7 +420,28 @@ class DreamHouse(tk.Frame):
         property_listing_btn.grid(row=0, column=2, padx=20, pady=20)
     
     def clientDashboard(self):
-        pass
+
+        client_dash_window = tk.Toplevel(self.master)
+        client_dash_window.title("Staff Dashboard")
+        client_dash_window.geometry("700x400")
+        client_dash_window.resizable(False, False)
+
+        client_heading=tk.Frame(client_dash_window)
+        client_heading.grid(row=0, column=0, columnspan=6, padx=10, sticky="nsew")
+
+        client_heading_title = tk.Label(client_heading, text="Client Dashboard", font=("Helvetica", 15),   bg="#614051", fg="white", width=60)
+        client_heading_title.pack(pady=20)
+
+        #viewed 3 things
+        client_dash_btns=tk.Frame(client_dash_window)
+        client_dash_btns.grid(row=1, column=0)
+
+        prop_listing_btn = tk.Button(client_dash_btns, text="Weekly Property Listing")
+        prop_listing_btn.grid(row=0, column=0, padx=20, pady=20)
+        property_listing_btn = tk.Button(client_dash_btns, text="Property Viewing Report")
+        property_listing_btn.grid(row=0, column=1, padx=20, pady=20)
+        property_listing_btn = tk.Button(client_dash_btns, text="Lease Form")
+        property_listing_btn.grid(row=0, column=2, padx=20, pady=20)
     
     def ownerDashboard(self):
         owner_dash_window = tk.Toplevel(self.master)
