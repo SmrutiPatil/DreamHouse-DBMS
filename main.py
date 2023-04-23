@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter import messagebox
 from tkcalendar import *
 from loginRegister import validateUser
+from com_function import connect
 
 from staffListing import staffListing
 from propertyRegisteredStaff import propertyList
@@ -86,7 +87,6 @@ class DreamHouse(tk.Frame):
             staff_reg_window.geometry("600x400")
             staff_reg_window.resizable(False, False)
             
-            staff_details = []
             
             # Frame for staff registration heading
             staff_heading=tk.Frame(staff_reg_window)
@@ -98,6 +98,7 @@ class DreamHouse(tk.Frame):
             #frame 1 for staff personal details
             staff_f1= tk.Frame(staff_reg_window)
             staff_f1.grid(row=1, column=0)
+     
 
             # staff name
             staff_name_label = tk.Label(staff_f1, text="Staff Name:", font=("Helvetica", 10))
@@ -118,6 +119,10 @@ class DreamHouse(tk.Frame):
             # staff_sex_female_radio = tk.Radiobutton(staff_sex_radio_frame, text="F", variable=staff_sex_var, value="F", command= isClicked)
             # staff_sex_male_radio.pack(side="left")
             # staff_sex_female_radio.pack(side="left")
+            staff_sex_male_radio = tk.Radiobutton(staff_sex_radio_frame, text="M", variable=staff_sex_var, value="M")
+            staff_sex_female_radio = tk.Radiobutton(staff_sex_radio_frame, text="F", variable=staff_sex_var, value="F")
+            staff_sex_male_radio.pack(side="left")
+            staff_sex_female_radio.pack(side="left")
         
 
             # staff dob
@@ -127,6 +132,7 @@ class DreamHouse(tk.Frame):
             dob_entry = DateEntry(staff_f1, width=12, background='darkblue',foreground='white', date_pattern='yyyy-mm-dd')
             dob_entry.grid(row=2, column=1)
 
+            
             # staff salary
             dob_label = tk.Label(staff_f1, text="Salary:", font=("Helvetica", 10))
             dob_label.grid(row=3, column=0)
@@ -135,6 +141,7 @@ class DreamHouse(tk.Frame):
 
             staff_salary_entry = tk.Entry(staff_f1, width=30, textvariable=salaryval)
             staff_salary_entry.grid(column=1, row=3)
+            
 
             # postion
             position_label = tk.Label(staff_f1, text="Position:", font=("Helvetica", 10))
@@ -142,6 +149,7 @@ class DreamHouse(tk.Frame):
 
             position_entry = tk.Entry(staff_f1, width=30)
             position_entry.grid(column=1, row=4)
+            
 
             # frame 2 for branch details of staff
             staff_f2= tk.Frame(staff_reg_window)
@@ -160,6 +168,7 @@ class DreamHouse(tk.Frame):
 
             branch_no_entry = tk.Entry(staff_f2, width=30)
             branch_no_entry.grid(column=1, row=1)
+        
 
             # branch address
             branch_addr_label = tk.Label(staff_f2, text="Branch Address:", font=("Helvetica", 10))
@@ -175,6 +184,7 @@ class DreamHouse(tk.Frame):
 
             branch_pnum_entry = tk.Entry(staff_f2, width=30, textvariable=branch_pnum_val)
             branch_pnum_entry.grid(column=1, row=3)
+            
 
             # frame 3 for branch details of staff
             staff_f3= tk.Frame(staff_reg_window)
@@ -201,9 +211,20 @@ class DreamHouse(tk.Frame):
             
             branch_mngBonus_entry = tk.Entry(staff_f3, width=15)
             branch_mngBonus_entry.grid(column=1, row=3)
+            
+            def registerStaff(id, staff_f1, staff_f2):
+                db = connect()
+                dbCursor = db.cursor()
+                args = [id, staff_name_entry.get(), staff_sex_var.get(), dob_entry.get(), salaryval.get(), position_entry.get(), branch_no_entry.get()]
+                query = f"""INSERT INTO staff (staff_number, staff_name, sex, dob, salary, branch_number, position) 
+                                VALUES ("{args[0]}", "{args[1]}", "{args[2]}", "{args[3]}", "{args[4]}", "{args[6]}", "{args[5]}")"""
+                print(query)
+                dbCursor.execute(query)
+                db.commit()
 
             # Creating a button to submit staff registration
-            submit_button = tk.Button(staff_reg_window, text="Submit", font=("Helvetica", 12), command=self.staffDashboard)
+            submit_button = tk.Button(staff_reg_window, text="Submit", font=("Helvetica", 12), command=(self.staffDashboard))
+            submit_button.bind("<Button-1>", lambda event: registerStaff(id, staff_f1, staff_f2))
             submit_button.grid(row=4, column=0,columnspan=2, pady=15)
 
         if role == "Client":
