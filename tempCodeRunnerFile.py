@@ -1,1 +1,1 @@
-{args[6]}
+from tkinter import ttk

@@ -7,6 +7,7 @@ from com_function import connect
 
 from staffListing import staffListing
 from propertyRegisteredStaff import propertyList
+from lease import viewlease, leaseform
 
 class DreamHouse(tk.Frame):
     def __init__(self, master):
@@ -419,27 +420,33 @@ class DreamHouse(tk.Frame):
             branch_no_entry = tk.Entry(staff_f1, width=30)
             branch_no_entry.grid(column=1, row=0)
 
-            staff_details= tk.Button(staff_dash_window, text="Get details")
+            staff_details= tk.Button(staff_dash_window, text="Get details", font=("Helvetica", 10))
             staff_details.grid(column=0, row=3, columnspan=4)
 
             staff_details.bind("<Button-1>", lambda event: staffListing(branch_no_entry, staff_f1, staff_f2))
 
             staff_f2= tk.Frame(staff_dash_window)
-            staff_f2.grid(row=4, column=0, pady=15)    
+            staff_f2.grid(row=4, column=0, pady=15)   
 
         # Buttons
         staff_dash_btns=tk.Frame(staff_dash_window)
         staff_dash_btns.grid(row=1, column=0)
 
-        staff_listing_btn = tk.Button(staff_dash_btns, text="View Staff Listing", command=staffList)
+        staff_listing_btn = tk.Button(staff_dash_btns, text="View Staff Listing", font=("Helvetica", 10),command=staffList)
         staff_listing_btn.grid(row=0, column=0, padx=20, pady=20)
-        property_listing_btn = tk.Button(staff_dash_btns, text="View Property Registered")
+
+        property_listing_btn = tk.Button(staff_dash_btns, text="View Property Registered", font=("Helvetica", 10))
         id = self.getId()
         property_listing_btn.bind("<Button-1>", lambda event: propertyList(id, staff_dash_window))
-
         property_listing_btn.grid(row=0, column=1, padx=20, pady=20)
-        property_listing_btn = tk.Button(staff_dash_btns, text="Lease Form")
-        property_listing_btn.grid(row=0, column=2, padx=20, pady=20)
+
+        lease_btn = tk.Button(staff_dash_btns, text="View Lease", font=("Helvetica", 10))
+        lease_btn.bind("<Button-1>", lambda event:viewlease(id, staff_dash_window))
+        lease_btn.grid(row=0, column=2, padx=20, pady=20)
+
+        lease_btn = tk.Button(staff_dash_btns, text="Lease Form", font=("Helvetica", 10))
+        lease_btn.bind("<Button-1>", lambda event:leaseform(id, staff_dash_window))
+        lease_btn.grid(row=0, column=3, padx=20, pady=20)
     
     def clientDashboard(self):
         pass
