@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import tkinter as tk
 from tkinter import ttk
 from tkcalendar import *
+from com_function import warningWindow, connect
 
 load_dotenv()
 
@@ -136,6 +137,18 @@ def leaseform(id, staff_dash_window):
 
     mngDate_entry = DateEntry(rentFrame, width=12, background='darkblue', foreground='white', date_pattern='yyyy-mm-dd')
     mngDate_entry.grid(row=1, column=1)
+    
+    # def registerLease(clientFrame, propFrame, paymentFrame, rentFrame):
+    #             db = connect()
+    #             dbCursor = db.cursor()
+    #             args = []
+                
+    #             dbCursor.execute(query)
+    #             db.commit()
+
+    #         # Creating a button to submit client details
+    #         submit_button = tk.Button(owner_dash_window, text="Submit", font=("Helvetica", 12))
+    #         submit_button.bind("<Button-1>", lambda event: registerPropertyBtn(owner_dash_window))
 
     submit_button = tk.Button(lease_window, text="Register", font=("Helvetica", 12), bg="#614051", fg="white", width=10)
     submit_button.place(x=250, y=270)

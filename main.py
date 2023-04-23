@@ -232,28 +232,45 @@ class DreamHouse(tk.Frame):
             branch_mngBonus_entry.grid(column=1, row=2)
 
             sup_name_label = tk.Label(
-                staff_f3, text="Supervisor Name:", font=("Helvetica", 10))
+                staff_f3, text="Supervisor Number:", font=("Helvetica", 10))
             sup_name_label.grid(column=0, row=3)
 
-            branch_mngBonus_entry = tk.Entry(staff_f3, width=15)
-            branch_mngBonus_entry.grid(column=1, row=3)
+            sup_num_entry = tk.Entry(staff_f3, width=15)
+            sup_num_entry.grid(column=1, row=3)
 
-            def registerStaff(id, staff_f1, staff_f2):
+            def registerStaff(id, staff_f1, staff_f2, staff_f3):
                 db = connect()
                 dbCursor = db.cursor()
                 args = [id, staff_name_entry.get(), staff_sex_var.get(), dob_entry.get(
                 ), salaryval.get(), position_entry.get(), branch_no_entry.get()]
                 query = f"""INSERT INTO staff (staff_number, staff_name, sex, dob, salary, branch_number, position)
                                 VALUES ("{args[0]}", "{args[1]}", "{args[2]}", "{args[3]}", "{args[4]}", "{args[6]}", "{args[5]}")"""
-                #print(query)
+                
+                args1 = [id, mngDate_entry .get(),  branch_mngBonus_entry .get()]
+                query1 = f"""INSERT INTO manager (staff_number, Manager_Start_Date, Manager_Bonus)
+                                VALUES ("{args1[0]}", "{args1[1]}", "{args1[2]}")"""
+                args2 = [id,sup_num_entry.get()]
+                query2 = f"""INSERT INTO assistant (staff_number, Supervisor_Number)
+                                VALUES ("{args[0]}", "{args[1]}")"""
+
                 dbCursor.execute(query)
                 db.commit()
+                
+                if(position_entry.get().lower()=="manager"):
+                    dbCursor.execute(query1)
+                    db.commit()
+                    
+                elif(position_entry.get().lower()=="assistant"):
+                  dbCursor.execute(query2)   
+                  db.commit()                   
+
+                
 
             # Creating a button to submit staff registration
             submit_button = tk.Button(staff_reg_window, text="Submit", font=(
                 "Helvetica", 12), command=(self.staffDashboard))
             submit_button.bind(
-                "<Button-1>", lambda event: registerStaff(id, staff_f1, staff_f2))
+                "<Button-1>", lambda event: registerStaff(id, staff_f1, staff_f2, staff_f3))
             submit_button.grid(row=4, column=0, columnspan=2, pady=15)
 
         if role == "Client":
