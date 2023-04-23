@@ -12,31 +12,19 @@ mydb = mysql.connector.connect( host= "localhost",
 
 dbCursor = mydb.cursor()
 
+import com_function as cf
+
 
 def validateUser(role, id):
+    db = cf.connect()
+    dbCursor = db.cursor()
     dbCursor.execute(f"""SELECT * FROM {role} WHERE {role}_number = '{id}'""")
     user = dbCursor.fetchone()
     if user:
         return True
     else:
-        warningWindow("Login failed")
+        cf.warningWindow("Login failed")
         return False
     
-# def registerStaff(id):
-    
-    
-def warningWindow(message):
-    root = tk.Tk()
-    frame1 = tk.Frame(root)
-    root.title("Warning")
-    root.geometry('200x75')
-    
-    label= tk.Label(frame1,text=message)
-    label.pack()
-    cancel = tk.Button(frame1,text="Cancel",command=root.destroy)
-    cancel.pack()
-    frame1.pack()
-    
-    root.mainloop()
-    
+#def registerStaff(id):
     

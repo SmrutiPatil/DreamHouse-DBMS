@@ -6,44 +6,54 @@ from loginRegister import validateUser
 
 from staffListing import staffListing
 from propertyRegisteredStaff import propertyList
-from tkinter.ttk import *
-from tkinter import *
 
-class Login_Page(tk.Frame):
+class DreamHouse(tk.Frame):
     def __init__(self, master):
         super().__init__(master)
 
         # Setting up the window
         self.master = master
         self.master.title("Dreamhouse Rental Business Login")
-        self.master.geometry("400x200")
-        self.master.resizable(False, False)
+        self.master.geometry("400x400")
+        self.master.minsize(400,400)
+
+        self.titleframe = tk.Frame(self.master, bg="#614051")
+        self.titleframe.pack(side="top", fill="x")
+        
+        self.titlelabel = tk.Label(self.titleframe, text="WELCOME TO DREAMHOUSE RENTALS", font=("Helvetica", 15), bg="#614051", fg="white")
+        self.titlelabel.pack(pady=20)
+
+        self.contentframe = tk.Frame(self.master, bg="#A08C96")
+        self.contentframe.pack(side="top", fill="both", expand=True)
 
         # Creating a label for the dropdown
-        self.select_role_label = tk.Label(self.master, text="Select Role:", font=("Helvetica", 12))
-        self.select_role_label.pack(pady=10)
+        self.select_role_label = tk.Label(self.contentframe, text="Select Role: ", font=("Helvetica", 12), bg="#A08C96")
+        self.select_role_label.place(x = 20 , y = 10)
 
         # Creating a dropdown for the roles
         self.role_options = ["Staff", "Owner", "Client"]
         self.role_var = tk.StringVar()
-        self.role_dropdown = ttk.Combobox(self.master, textvariable=self.role_var, values=self.role_options, state="readonly")
-        self.role_dropdown.pack(pady=5)
+        self.role_dropdown = ttk.Combobox(self.contentframe, textvariable=self.role_var, values=self.role_options, state="readonly")
+        self.role_dropdown.place(x = 150 , y = 10)
 
         # Creating a label for the ID entry
-        self.id_label = tk.Label(self.master, text="ID:", font=("Helvetica", 12))
-        self.id_label.pack()
+        self.id_label = tk.Label(self.contentframe, text="ID:", font=("Helvetica", 12), bg="#A08C96")
+        self.id_label.place(x = 20 , y = 40)
 
         # Creating an entry for the ID
-        self.id_entry = tk.Entry(self.master, width=30)
-        self.id_entry.pack(pady=5)
+        self.id_entry = tk.Entry(self.contentframe, width=23)
+        self.id_entry.place(x = 150 , y = 40)
 
         # Creating a button to log in
-        self.login_button = tk.Button(self.master, text="Log In", font=("Helvetica", 12), command=self.login)
-        self.login_button.pack(pady=10)
+        self.login_button = tk.Button(self.contentframe, text="Log In", font=("Helvetica", 12), command=self.login , bg="#614051" , fg="white" , width=15)
+        self.login_button.place(x = 100 , y = 100)
+
+        self.regtitle = tk.Label(self.contentframe, text="Don't have an account?", font=("Helvetica", 10), bg="#A08C96")
+        self.regtitle.place(x = 100 , y = 140)
 
         # Creating a button to register
-        self.register_button = tk.Button(self.master, text="Register", font=("Helvetica", 12), command=self.register)
-        self.register_button.pack()
+        self.register_button = tk.Button(self.contentframe, text="Register", font=("Helvetica", 12), command=self.register , bg="#614051" , fg="white" , width=10)
+        self.register_button.place(x = 120 , y = 170)
 
     def login(self):
         role = self.role_var.get()
@@ -73,46 +83,56 @@ class Login_Page(tk.Frame):
             # Creating a new window for staff registration
             staff_reg_window = tk.Toplevel(self.master)
             staff_reg_window.title("Staff Registration Form")
-            staff_reg_window.geometry("400x300")
+            staff_reg_window.geometry("600x400")
             staff_reg_window.resizable(False, False)
+            
+            staff_details = []
+            
+            # Frame for staff registration heading
+            staff_heading=tk.Frame(staff_reg_window)
+            staff_heading.grid(row=0, column=0, columnspan=4, padx=10, sticky="nsew")
 
-            # Creating labels and entries for staff registration form
-            staff_name_label = tk.Label(staff_reg_window, text="Staff Name:", font=("Helvetica", 12))
-            staff_name_label.pack(pady=10)
+            staff_heading_title = tk.Label(staff_heading, text="Staff Registration Form", font=("Helvetica", 15), bg="#614051", fg="white", width=50)
+            staff_heading_title.pack(pady=20)
 
-            staff_name_entry = tk.Entry(staff_reg_window, width=30)
-            staff_name_entry.pack()
+            #frame 1 for staff personal details
+            staff_f1= tk.Frame(staff_reg_window)
+            staff_f1.grid(row=1, column=0)
 
-            staff_sex_label = tk.Label(staff_reg_window, text="Staff Sex:", font=("Helvetica", 12))
-            staff_sex_label.pack(pady=10)
+            # staff name
+            staff_name_label = tk.Label(staff_f1, text="Staff Name:", font=("Helvetica", 10))
+            staff_name_label.grid(column=0, row=0)
+
+            staff_name_entry = tk.Entry(staff_f1, width=30)
+            staff_name_entry.grid(column=1, row=0)
+
+            # staff sex
+            staff_sex_label = tk.Label(staff_f1, text="Staff Sex:", font=("Helvetica", 10))
+            staff_sex_label.grid(column=0, row=1)
+
+            staff_sex_radio_frame= tk.Frame(staff_f1)
+            staff_sex_radio_frame.grid(row=1, column=1)
 
             staff_sex_var = tk.StringVar()
-            staff_sex_male_radio = tk.Radiobutton(staff_reg_window, text="M", variable=staff_sex_var, value="M")
-            staff_sex_female_radio = tk.Radiobutton(staff_reg_window, text="F", variable=staff_sex_var, value="F")
-            staff_sex_male_radio.pack()
-            staff_sex_female_radio.pack()
-
-            # Creating a button to submit staff registration
-            submit_button = tk.Button(staff_reg_window, text="Submit", font=("Helvetica", 12))
-            submit_button.pack(pady=10)
-
-
-
-            # client registration form
-        if role == "Client":
-            # Creating a new window for staff registration
-            client_reg_window = tk.Toplevel(self.master)
-            client_reg_window.title("Client Registration Form")
-            client_reg_window.geometry("700x500")
-            client_reg_window.minsize(700 , 500)
-            client_reg_window.resizable(False, False)
-
-            # frame one at top for heading
-            headingFrame = Frame(client_reg_window)
-            headingFrame.pack(side="top")
+            # staff_sex_male_radio = tk.Radiobutton(staff_sex_radio_frame, text="M", variable=staff_sex_var, value="M", command= isClicked)
+            # staff_sex_female_radio = tk.Radiobutton(staff_sex_radio_frame, text="F", variable=staff_sex_var, value="F", command= isClicked)
+            # staff_sex_male_radio.pack(side="left")
+            # staff_sex_female_radio.pack(side="left")
         
-            headingLabel = Label(headingFrame , text="Dream Home \n Client Registration Form" , bg="red" , font = "40" , fg="white" , padx="10" , pady="10")
-            headingLabel.pack(side = "top", fill=Y)
+
+            # staff dob
+            dob_label = tk.Label(staff_f1, text="Date of Birth:", font=("Helvetica", 10))
+            dob_label.grid(row=2, column=0)
+
+            dob_entry = DateEntry(staff_f1, width=12, background='darkblue',foreground='white', date_pattern='yyyy-mm-dd')
+            dob_entry.grid(row=2, column=1)
+
+            # staff salary
+            dob_label = tk.Label(staff_f1, text="Salary:", font=("Helvetica", 10))
+            dob_label.grid(row=3, column=0)
+
+            salaryval = tk.IntVar()
+
             staff_salary_entry = tk.Entry(staff_f1, width=30, textvariable=salaryval)
             staff_salary_entry.grid(column=1, row=3)
 
@@ -172,32 +192,15 @@ class Login_Page(tk.Frame):
             branch_mngBonus_label = tk.Label(staff_f3, text="Manager Bonus:", font=("Helvetica", 10))
             branch_mngBonus_label.grid(column=0, row=2)
             
-            # # property type
-            clientReqHeading = Label(clientRequirementsFrame,text="Enter property requirements" , font=("Helvetica", 18))
-            clientReqHeading.pack()
+            mngBonusval=tk.IntVar()
+            branch_mngBonus_entry = tk.Entry(staff_f3, width=15, textvariable=mngBonusval)
+            branch_mngBonus_entry.grid(column=1, row=2)
 
-            client_Proptype_label = Label(clientRequirementsFrame, text="Type:", font=("Helvetica", 12))
-            client_Proptype_label.pack()
-
-            client_Proptype_entry = Entry(clientRequirementsFrame, width=30)
-            client_Proptype_entry.pack()
-
-            # # Max rent
-            maxRent_label = Label(clientRequirementsFrame, text="Full Name:", font=("Helvetica", 12))
-            maxRent_label.pack()
-
-            maxRent_entry = Entry(clientRequirementsFrame, width=30)
-            maxRent_entry.pack()
-
-
-            # staff_sex_label = tk.Label(client_reg_window, text="Staff Sex:", font=("Helvetica", 12))
-            # staff_sex_label.pack(pady=10)
-
-            # staff_sex_var = tk.StringVar()
-            # staff_sex_male_radio = tk.Radiobutton(client_reg_window, text="M", variable=staff_sex_var, value="M")
-            # staff_sex_female_radio = tk.Radiobutton(client_reg_window, text="F", variable=staff_sex_var, value="F")
-            # staff_sex_male_radio.pack()
-            # staff_sex_female_radio.pack()
+            sup_name_label = tk.Label(staff_f3, text="Supervisor Name:", font=("Helvetica", 10))
+            sup_name_label.grid(column=0, row=3)
+            
+            branch_mngBonus_entry = tk.Entry(staff_f3, width=15)
+            branch_mngBonus_entry.grid(column=1, row=3)
 
             # Creating a button to submit staff registration
             submit_button = tk.Button(staff_reg_window, text="Submit", font=("Helvetica", 12), command=self.staffDashboard)
@@ -477,6 +480,6 @@ class Login_Page(tk.Frame):
                 
 if __name__ == "__main__":
     root = tk.Tk()
-    login_page = Login_Page(root)
+    login_page = DreamHouse(root)
     login_page.pack()
     root.mainloop()
