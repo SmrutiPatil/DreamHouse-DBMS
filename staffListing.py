@@ -8,7 +8,10 @@ load_dotenv()
 mysqldb = mysql.connector.connect(host="localhost", user=os.getenv("db_user"), password=os.getenv("db_password"), database=os.getenv("db_name"))
 mycursor = mysqldb.cursor()
 
-def staffListing(branch_num, staff_f1, staff_f2):
+def staffListing(branch_num, staff_f1):
+    staff_f2= tk.Frame(staff_f1)
+    staff_f2.place(x=30 , y = 200)
+
     branch_num=branch_num.get()
     sql1 = ("SELECT staff_number, staff_name, position FROM staff where branch_number= %s")
     mycursor.execute(sql1, [branch_num])
@@ -27,16 +30,16 @@ def staffListing(branch_num, staff_f1, staff_f2):
             label.grid_forget()
 
     # branch address
-    branch_addr_label = tk.Label(staff_f1, text="Branch Address:", font=("Helvetica", 10))
-    branch_addr_label.grid(column=2, row=0, padx=10)
+    branch_addr_label = tk.Label(staff_f1, text="Branch Address :   ", font=("Helvetica", 10))
+    branch_addr_label.place(x = 10 , y = 100)
     branch_addr_label = tk.Label(staff_f1, text=branch_details[0][0], font=("Helvetica", 10))
-    branch_addr_label.grid(column=3, row=0)
+    branch_addr_label.place(x = 150 , y = 100)
 
     # branch numbers
-    branch_num_label = tk.Label(staff_f1, text="Telephone Number:", font=("Helvetica", 10))
-    branch_num_label.grid(column=0, row=1)
+    branch_num_label = tk.Label(staff_f1, text="Telephone Number:  ", font=("Helvetica", 10))
+    branch_num_label.place(x = 10 , y = 130)
     branch_num_label = tk.Label(staff_f1, text=branch_details[0][1], font=("Helvetica", 10))
-    branch_num_label.grid(column=1, row=1)
+    branch_num_label.place(x = 150 , y = 130)
 
 
     # Staff Numbers
