@@ -215,7 +215,7 @@ class DreamHouse(tk.Frame):
                 args = [id, staff_name_entry.get(), staff_sex_var.get(), dob_entry.get(), salaryval.get(), position_entry.get(), branch_no_entry.get()]
                 query = f"""INSERT INTO staff (staff_number, staff_name, sex, dob, salary, branch_number, position) 
                                 VALUES ("{args[0]}", "{args[1]}", "{args[2]}", "{args[3]}", "{args[4]}", "{args[6]}", "{args[5]}")"""
-                print(query)
+                #print(query)
                 dbCursor.execute(query)
                 db.commit()
 
@@ -247,7 +247,7 @@ class DreamHouse(tk.Frame):
             client_number_label = tk.Label(clientDetailsFrame, text="Client Number:", font=("Helvetica", 10))
             client_number_label.grid(row=0, column=0, padx=40)
 
-            client_number_entry = tk.Entry(clientDetailsFrame, width=20)
+            client_number_entry = tk.Label(clientDetailsFrame, text=id, font=("Helvetica", 10))
             client_number_entry.grid(row=0, column=1)
 
             # # client name
@@ -290,12 +290,6 @@ class DreamHouse(tk.Frame):
             branch_name_entry = tk.Entry(client_f3, width=30)
             branch_name_entry.grid(column=1, row=0)
 
-            # branch address
-            branch_addr_label = tk.Label(client_f3, text="Branch Address:", font=("Helvetica", 10))
-            branch_addr_label.grid(column=0, row=1, pady=5)
-
-            branch_addr_entry = tk.Entry(client_f3, width=30)
-            branch_addr_entry.grid(column=1, row=1, pady=5)
 
             # registed by
             registedby_label = tk.Label(client_f3, text="Registered By:", font=("Helvetica", 10))
@@ -310,9 +304,20 @@ class DreamHouse(tk.Frame):
 
             datereg_entry = DateEntry(client_f3, width=12, background='darkblue',foreground='white', date_pattern='yyyy-mm-dd')
             datereg_entry.grid(column=1, row=3)
+            
+            def registerClient(id, clientDetailsFrame, clientRequirementsFrame, client_f3):
+                db = connect()
+                dbCursor = db.cursor()
+                args = [id, client_name_entry.get(), branch_name_entry.get(), registeredby_entry.get(), datereg_entry.get(), client_Proptype_entry.get(), maxRent_entry.get()]
+                query = f"""INSERT INTO client (client_number, full_name, branch_number, registered_by_staff, Date_registered, ptype, max_prent) 
+                                VALUES ("{args[0]}", "{args[1]}", "{args[2]}", "{args[3]}", "{args[4]}", "{args[5]}", "{args[6]}")"""
+                #print(query)
+                dbCursor.execute(query)
+                db.commit()
 
             # Creating a button to submit client details
             submit_button = tk.Button(client_reg_window, text="Submit", font=("Helvetica", 12), command=self.clientDashboard())
+            submit_button.bind("<Button-1>", lambda event: registerClient(id, clientDetailsFrame, clientRequirementsFrame, client_f3))
             submit_button.grid(row=4, column=0,columnspan=2, pady=15)
 
         if role == "Owner":
