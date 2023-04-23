@@ -3,6 +3,8 @@ from tkinter import ttk
 from tkinter import messagebox
 from tkcalendar import *
 
+from staffListing import staffListing
+
 class DreamHouse(tk.Frame):
     def __init__(self, master):
         super().__init__(master)
@@ -356,12 +358,12 @@ class DreamHouse(tk.Frame):
         # Creating a new window for staff registration
         staff_dash_window = tk.Toplevel(self.master)
         staff_dash_window.title("Staff Dashboard")
-        staff_dash_window.geometry("600x400")
+        staff_dash_window.geometry("800x400")
         # staff_dash_window.resizable(False, False)
 
         # Frame for staff registration heading
         staff_heading=tk.Frame(staff_dash_window)
-        staff_heading.grid(row=0, column=0, columnspan=4, padx=10, sticky="nsew")
+        staff_heading.grid(row=0, column=0, columnspan=6, padx=10, sticky="nsew")
 
         staff_heading_title = tk.Label(staff_heading, text="Staff Dashboard", font=("Helvetica", 15),   bg="#614051", fg="white", width=50)
         staff_heading_title.pack(pady=20)
@@ -372,42 +374,19 @@ class DreamHouse(tk.Frame):
             staff_f1.grid(row=2, column=0, padx=10)
                 
             # branch number
-            branch_name_label = tk.Label(staff_f1, text="Branch Number:", font=("Helvetica", 10))
-            branch_name_label.grid(column=0, row=0)
+            branch_no_label = tk.Label(staff_f1, text="Branch Number:", font=("Helvetica", 10))
+            branch_no_label.grid(column=0, row=0)
 
-            branch_name_entry = tk.Entry(staff_f1, width=30)
-            branch_name_entry.grid(column=1, row=0)
+            branch_no_entry = tk.Entry(staff_f1, width=30)
+            branch_no_entry.grid(column=1, row=0)
 
-            # branch address
-            branch_addr_label = tk.Label(staff_f1, text="Branch Address:", font=("Helvetica", 10))
-            branch_addr_label.grid(column=2, row=0)
+            staff_details= tk.Button(staff_dash_window, text="Get details")
+            staff_details.grid(column=0, row=3, columnspan=4)
 
-            branch_addr_entry = tk.Entry(staff_f1, width=30)
-            branch_addr_entry.grid(column=3, row=0)
+            staff_details.bind("<Button-1>", lambda event: staffListing(branch_no_entry, staff_f1, staff_f2))
 
-            # branch numbers
-            branch_num_val = tk.IntVar()
-            branch_num_label = tk.Label(staff_f1, text="Telephone Number:", font=("Helvetica", 10))
-            branch_num_label.grid(column=0, row=1)
-
-            branch_num_entry = tk.Entry(staff_f1, width=30, textvariable=branch_num_val)
-            branch_num_entry.grid(column=1, row=1)
-
-            # frame 2 for branch details
             staff_f2= tk.Frame(staff_dash_window)
-            staff_f2.grid(row=3, column=0, pady=15)
-
-            # Staff Numbers
-            branch_name_label = tk.Label(staff_f2, text="Staff Number", font=("Helvetica", 10, "bold"))
-            branch_name_label.grid(column=0, row=0, padx=50)
-
-            # Name
-            branch_name_label = tk.Label(staff_f2, text="Name", font=("Helvetica", 10,"bold"))
-            branch_name_label.grid(column=2, row=0, padx=50)
-
-            # Position
-            branch_name_label = tk.Label(staff_f2, text="Position", font=("Helvetica", 10,"bold"))
-            branch_name_label.grid(column=3, row=0, padx=50)
+            staff_f2.grid(row=4, column=0, pady=15)    
 
         def propertyList():
             pass
