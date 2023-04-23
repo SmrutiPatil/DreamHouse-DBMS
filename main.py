@@ -561,7 +561,7 @@ class DreamHouse(tk.Frame):
         client_dash_window = tk.Toplevel(self.master)
         client_dash_window.title("Staff Dashboard")
         client_dash_window.geometry("700x400")
-        client_dash_window.resizable(False, False)
+        # client_dash_window.resizable(False, False)
 
         client_heading=tk.Frame(client_dash_window)
         client_heading.grid(row=0, column=0, columnspan=6, padx=10, sticky="nsew")
@@ -577,13 +577,9 @@ class DreamHouse(tk.Frame):
             "Helvetica", 12),  bg="#614051", fg="white")
         prop_listing_btn.grid(row=0, column=0, padx=20, pady=20)
         prop_listing_btn.bind("<Button-1>", lambda event:weekly_listing(id, client_dash_window))
-        
-        property_listing_btn = tk.Button(client_dash_btns, text="Property Viewing Report" , font=(
-            "Helvetica", 12),  bg="#614051", fg="white")
+
+        property_listing_btn = tk.Button(client_dash_btns, text="Lease Form")
         property_listing_btn.grid(row=0, column=1, padx=20, pady=20)
-        property_listing_btn = tk.Button(client_dash_btns, text="Lease Form" , font=(
-            "Helvetica", 12),  bg="#614051", fg="white")
-        property_listing_btn.grid(row=0, column=2, padx=20, pady=20)
     
     def ownerDashboard(self):
         owner_dash_window = tk.Toplevel(self.master)
