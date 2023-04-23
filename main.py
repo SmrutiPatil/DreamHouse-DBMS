@@ -168,7 +168,7 @@ class DreamHouse(tk.Frame):
             branch_pnum_label = tk.Label(staff_f2, text="Telephone Number:", font=("Helvetica", 10))
             branch_pnum_label.grid(column=0, row=3)
 
-            branch_pnum_entry = tk.Entry(staff_f2, width=30, textvariable=branch_num_val)
+            branch_pnum_entry = tk.Entry(staff_f2, width=30, textvariable=branch_pnum_val)
             branch_pnum_entry.grid(column=1, row=3)
 
             # frame 3 for branch details of staff
