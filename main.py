@@ -5,6 +5,7 @@ from tkcalendar import *
 from loginRegister import validateUser
 
 from staffListing import staffListing
+from propertyRegisteredStaff import propertyList
 
 class DreamHouse(tk.Frame):
     def __init__(self, master):
@@ -69,6 +70,10 @@ class DreamHouse(tk.Frame):
             elif role == "Owner":
                 self.ownerDashboard()
 
+    def getId(self):
+        id = self.id_entry.get()
+        return id
+    
     def register(self):
         role = self.role_var.get()
         id = self.id_entry.get()
@@ -289,7 +294,7 @@ class DreamHouse(tk.Frame):
             datereg_entry.grid(column=1, row=3)
 
             # Creating a button to submit client details
-            submit_button = tk.Button(client_reg_window, text="Submit", font=("Helvetica", 12), command=self.clientDashboard)
+            submit_button = tk.Button(client_reg_window, text="Submit", font=("Helvetica", 12), command=self.clientDashboard())
             submit_button.grid(row=4, column=0,columnspan=2, pady=15)
 
         if role == "Owner":
@@ -359,14 +364,13 @@ class DreamHouse(tk.Frame):
             business_radio_frame.grid(row=4, column=1)
             radio_button_yes = tk.Radiobutton(business_radio_frame, text="Yes", value="Y", command=radio_button_clicked)
             radio_button_yes.pack(side="left")
-            radio_button_no = tk.Radiobutton(business_radio_frame, text="No", value="N", command=radio_button_clicked)
+            radio_button_no = tk.Radiobutton(business_radio_frame, text="No", value="N")
             radio_button_no.pack(side="left")
 
             # Creating a button to submit owner details
             submit_button = tk.Button(owner_reg_window, text="Submit", font=("Helvetica", 12), command=self.ownerDashboard)
             submit_button.grid(row=3, column=0,columnspan=2, pady=15)
             
-
     def staffDashboard(self):
         # Creating a new window for staff registration
         staff_dash_window = tk.Toplevel(self.master)
@@ -401,21 +405,18 @@ class DreamHouse(tk.Frame):
             staff_f2= tk.Frame(staff_dash_window)
             staff_f2.grid(row=4, column=0, pady=15)    
 
-        def propertyList():
-            pass
-
-        def leaseForm():
-            pass
-
         # Buttons
         staff_dash_btns=tk.Frame(staff_dash_window)
         staff_dash_btns.grid(row=1, column=0)
 
         staff_listing_btn = tk.Button(staff_dash_btns, text="View Staff Listing", command=staffList)
         staff_listing_btn.grid(row=0, column=0, padx=20, pady=20)
-        property_listing_btn = tk.Button(staff_dash_btns, text="View Property Registered", command=propertyList)
+        property_listing_btn = tk.Button(staff_dash_btns, text="View Property Registered")
+        id = self.getId()
+        property_listing_btn.bind("<Button-1>", lambda event: propertyList(id, staff_dash_window))
+
         property_listing_btn.grid(row=0, column=1, padx=20, pady=20)
-        property_listing_btn = tk.Button(staff_dash_btns, text="Lease Form", command=leaseForm)
+        property_listing_btn = tk.Button(staff_dash_btns, text="Lease Form")
         property_listing_btn.grid(row=0, column=2, padx=20, pady=20)
     
     def clientDashboard(self):
