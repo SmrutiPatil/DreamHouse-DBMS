@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv 
 import tkinter as tk
 from tkinter import ttk
+from tkcalendar import *
 
 load_dotenv()
 
@@ -91,11 +92,11 @@ def leaseform(id, staff_dash_window):
     propAddress_entry = tk.Entry(propFrame, width=20)
     propAddress_entry.grid(row=2, column =1)
 
-    payment = tk.Label(lease_window, text="Enter payment details")
-    payment.grid(row=2, column=0, font=("Helvetica", 12))
+    payment = tk.Label(lease_window, text="Enter payment details", font=("Helvetica", 11))
+    payment.grid(row=2, column=0, pady=15)
 
     paymentFrame = tk.Frame(lease_window)
-    paymentFrame.grid(row=3, column=2)
+    paymentFrame.grid(row=3, column=0)
 
     monthlyRent = tk.Label(paymentFrame, text="Monthly Rent", font=("Helvetica", 10))
     monthlyRent.grid(row=1, column=0)
@@ -120,3 +121,21 @@ def leaseform(id, staff_dash_window):
     radio_button_yes.pack(side="left")
     radio_button_no = tk.Radiobutton(deposit_radio_frame, text="No", value="N")
     radio_button_no.pack(side="left")
+
+    rentFrame = tk.Frame(lease_window)
+    rentFrame.grid(row=3, column=2)
+
+    monthlyRent = tk.Label(rentFrame, text="Rent start:", font=("Helvetica", 10))
+    monthlyRent.grid(row=0, column=0)
+
+    mngDate_entry = DateEntry(rentFrame, width=12, background='darkblue', foreground='white', date_pattern='yyyy-mm-dd')
+    mngDate_entry.grid(row=0, column=1)
+
+    monthlyRent = tk.Label(rentFrame, text="Rent Finish:", font=("Helvetica", 10))
+    monthlyRent.grid(row=1, column=0)
+
+    mngDate_entry = DateEntry(rentFrame, width=12, background='darkblue', foreground='white', date_pattern='yyyy-mm-dd')
+    mngDate_entry.grid(row=1, column=1)
+
+    submit_button = tk.Button(lease_window, text="Register", font=("Helvetica", 12), bg="#614051", fg="white", width=10)
+    submit_button.place(x=250, y=270)
