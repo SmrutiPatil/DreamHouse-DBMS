@@ -394,7 +394,8 @@ class DreamHouse(tk.Frame):
                 ownerDetailsFrame, text="Owner Number:", font=("Helvetica", 10))
             owner_number_label.grid(row=0, column=0, padx=40)
 
-            owner_number_entry = tk.Entry(ownerDetailsFrame, width=20)
+            owner_number_entry = tk.Label(
+                ownerDetailsFrame, text=id, font=("Helvetica", 10))
             owner_number_entry.grid(row=0, column=1)
 
             # # owner name
@@ -411,17 +412,17 @@ class DreamHouse(tk.Frame):
             owner_addr_entry = tk.Entry(ownerDetailsFrame, width=20)
             owner_addr_entry.grid(row=2, column =1)
 
-            owner_addr_label = tk.Label(ownerDetailsFrame, text="Branch City:", font=("Helvetica", 10))
-            owner_addr_label.grid(row=3, column=0, padx=40)
+            owner_city_label = tk.Label(ownerDetailsFrame, text="Branch City:", font=("Helvetica", 10))
+            owner_city_label.grid(row=3, column=0, padx=40)
 
-            owner_addr_entry = tk.Entry(ownerDetailsFrame, width=20)
-            owner_addr_entry.grid(row=3, column =1)
+            owner_city_entry = tk.Entry(ownerDetailsFrame, width=20)
+            owner_city_entry.grid(row=3, column =1)
 
-            owner_addr_label = tk.Label(ownerDetailsFrame, text="Branch Pincode:", font=("Helvetica", 10))
-            owner_addr_label.grid(row=4, column=0, padx=40)
+            owner_pincode_label = tk.Label(ownerDetailsFrame, text="Branch Pincode:", font=("Helvetica", 10))
+            owner_pincode_label.grid(row=4, column=0, padx=40)
 
-            owner_addr_entry = tk.Entry(ownerDetailsFrame, width=20)
-            owner_addr_entry.grid(row=4, column =1)
+            owner_pincode_entry = tk.Entry(ownerDetailsFrame, width=20)
+            owner_pincode_entry.grid(row=4, column =1)
 
             # # telephone no
             owner_tel_val = tk.IntVar()
@@ -446,18 +447,30 @@ class DreamHouse(tk.Frame):
 
             owner_busi_label = tk.Label(ownerDetailsFrame, text="Personal/Business?", font=("Helvetica", 10))
             owner_busi_label.grid(row=5, column=0, padx=40)
+            var = tk.StringVar()
 
             business_radio_frame=tk.Frame(ownerDetailsFrame)
             business_radio_frame.grid(row=5, column=1)
-            radio_button_yes = tk.Radiobutton(business_radio_frame, text="Yes", value="Y", command=radio_button_clicked)
+            radio_button_yes = tk.Radiobutton(business_radio_frame, text="Yes", value="Y",variable=var, command=radio_button_clicked)
             radio_button_yes.pack(side="left")
             radio_button_no = tk.Radiobutton(
-                business_radio_frame, text="No", value="N")
+                business_radio_frame, text="No",variable=var, value="N")
             radio_button_no.pack(side="left")
+
+            def registerOwner(id, ownerDetailsFrame):
+                db = connect()
+                dbCursor = db.cursor()
+                args = [id, owner_name_entry.get(), var.get(), owner_addr_entry.get(), owner_city_entry.get(), owner_pincode_entry.get(), owner_tel_val.get()]
+                query = f"""INSERT INTO owner (Owner_Number, Personal_or_Business_name, Is_Business,OAddress, OCity, OPincode, Telephone_Number) 
+                                VALUES ("{args[0]}", "{args[1]}", "{args[2]}", "{args[3]}", "{args[4]}", "{args[5]}", "{args[6]}")"""
+                #print(query)
+                dbCursor.execute(query)
+                db.commit()
 
             # Creating a button to submit owner details
             submit_button = tk.Button(owner_reg_window, text="Submit", font=(
                 "Helvetica", 12), command=self.ownerDashboard)
+            submit_button.bind("<Button-1>", lambda event: registerOwner(id, ownerDetailsFrame ))
             submit_button.grid(row=3, column=0, columnspan=2, pady=15)
 
     def staffDashboard(self):
