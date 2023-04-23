@@ -32,7 +32,7 @@ def staffListing(branch_num, staff_f1, staff_f2):
 
     # branch address
     branch_addr_label = tk.Label(staff_f1, text="Branch Address:", font=("Helvetica", 10))
-    branch_addr_label.grid(column=2, row=0)
+    branch_addr_label.grid(column=2, row=0, padx=10)
     branch_addr_label = tk.Label(staff_f1, text=branch_details[0][0], font=("Helvetica", 10))
     branch_addr_label.grid(column=3, row=0)
 
@@ -55,8 +55,8 @@ def staffListing(branch_num, staff_f1, staff_f2):
     branch_name_label = tk.Label(staff_f2, text="Position", font=("Helvetica", 10,"bold"))
     branch_name_label.grid(column=2, row=0, padx=50)
 
-    for branch in branch_details:
-        print(branch)
+    # for branch in branch_details:
+    #     print(branch)
 
     for i in range(len(staff_details)):
         # print(f"{staff[0]}, {staff[1]}, {staff[2]}")

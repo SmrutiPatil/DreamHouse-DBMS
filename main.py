@@ -368,14 +368,14 @@ class DreamHouse(tk.Frame):
         # Creating a new window for staff registration
         staff_dash_window = tk.Toplevel(self.master)
         staff_dash_window.title("Staff Dashboard")
-        staff_dash_window.geometry("800x400")
-        # staff_dash_window.resizable(False, False)
+        staff_dash_window.geometry("700x400")
+        staff_dash_window.resizable(False, False)
 
         # Frame for staff registration heading
         staff_heading=tk.Frame(staff_dash_window)
         staff_heading.grid(row=0, column=0, columnspan=6, padx=10, sticky="nsew")
 
-        staff_heading_title = tk.Label(staff_heading, text="Staff Dashboard", font=("Helvetica", 15),   bg="#614051", fg="white", width=50)
+        staff_heading_title = tk.Label(staff_heading, text="Staff Dashboard", font=("Helvetica", 15),   bg="#614051", fg="white", width=60)
         staff_heading_title.pack(pady=20)
 
         def staffList():
