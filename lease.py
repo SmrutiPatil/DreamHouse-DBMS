@@ -80,6 +80,12 @@ def leaseform(id, staff_dash_window):
 
     propFrame = tk.Frame(lease_window)
     propFrame.grid(row=1, column=2)
+    
+    leaseNum = tk.Label(clientFrame, text="Lease Number", font=("Helvetica", 10))
+    leaseNum.grid(row=0, column=0)
+
+    leaseNum_entry = tk.Entry(clientFrame, width=20)
+    leaseNum_entry.grid(row=0, column =1)
 
     propNum = tk.Label(propFrame, text="Property Number", font=("Helvetica", 10))
     propNum.grid(row=1, column=0)
@@ -117,10 +123,11 @@ def leaseform(id, staff_dash_window):
     deposit_label.grid(row=3, column=0, padx=40)
 
     deposit_radio_frame=tk.Frame(paymentFrame)
+    deposit_var = tk.StringVar()
     deposit_radio_frame.grid(row=3, column=1)
-    radio_button_yes = tk.Radiobutton(deposit_radio_frame, text="Yes", value="Y")
+    radio_button_yes = tk.Radiobutton(deposit_radio_frame, text="Yes", value="Y", variable=deposit_var)
     radio_button_yes.pack(side="left")
-    radio_button_no = tk.Radiobutton(deposit_radio_frame, text="No", value="N")
+    radio_button_no = tk.Radiobutton(deposit_radio_frame, text="No", value="N", variable=deposit_var)
     radio_button_no.pack(side="left")
 
     rentFrame = tk.Frame(lease_window)
@@ -135,20 +142,21 @@ def leaseform(id, staff_dash_window):
     monthlyRent = tk.Label(rentFrame, text="Rent Finish:", font=("Helvetica", 10))
     monthlyRent.grid(row=1, column=0)
 
-    mngDate_entry = DateEntry(rentFrame, width=12, background='darkblue', foreground='white', date_pattern='yyyy-mm-dd')
-    mngDate_entry.grid(row=1, column=1)
+    mngDate_finish = DateEntry(rentFrame, width=12, background='darkblue', foreground='white', date_pattern='yyyy-mm-dd')
+    mngDate_finish.grid(row=1, column=1)
     
-    # def registerLease(clientFrame, propFrame, paymentFrame, rentFrame):
-    #             db = connect()
-    #             dbCursor = db.cursor()
-    #             args = []
+    def registerLease(clientFrame, propFrame, paymentFrame, rentFrame):
+                db = connect()
+                dbCursor = db.cursor()
+                args = [leaseNum_entry.get(), clientNum_entry.get(), propNum_entry.get(), paymentMethod_entry.get(), deposit_var.get(), mngDate_entry.get_date(), mngDate_finish.get_date()]
                 
-    #             dbCursor.execute(query)
-    #             db.commit()
-
-    #         # Creating a button to submit client details
-    #         submit_button = tk.Button(owner_dash_window, text="Submit", font=("Helvetica", 12))
-    #         submit_button.bind("<Button-1>", lambda event: registerPropertyBtn(owner_dash_window))
+                query = f"""INSERT INTO lease (lease_number, client_number, property_number, payment_method, deposit_paid, rent_start, rent_finish) 
+                VALUES ('{args[0]}', '{args[1]}', '{args[2]}', '{args[3]}', '{args[4]}', '{args[5]}', '{args[6]}')"""
+                
+                
+                dbCursor.execute(query)
+                db.commit()
 
     submit_button = tk.Button(lease_window, text="Register", font=("Helvetica", 12), bg="#614051", fg="white", width=10)
+    submit_button.bind("<Button-1>", lambda event: registerLease(clientFrame, propFrame, paymentFrame, rentFrame))
     submit_button.place(x=250, y=270)
