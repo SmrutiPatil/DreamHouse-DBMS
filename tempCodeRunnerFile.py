@@ -1,5 +1,6 @@
-<<<<<<< HEAD
- width=20
-=======
-{args[6]}
->>>>>>> a7537de170b919db2c889640f89a6a7d9e861332
+        # staff_dash_window.resizable(False, False)
+
+
+            # Creating a new window for staff registration
+            # staff_heading_title = tk.Label(staff_heading, text="Staff Registration Form", font=("Helvetica", 15), bg="#614051", fg="white")
+            # staff_heading_title.pack(pady=20)
