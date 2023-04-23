@@ -12,8 +12,7 @@ def connect():
                                 password= os.getenv("DB_PASSWORD"),
                                 database = os.getenv("DB_NAME")
     )
-    
-    return mydb.cursor()
+    return mydb
 
 
 #function to create a warning window   

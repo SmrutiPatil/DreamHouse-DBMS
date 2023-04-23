@@ -2,7 +2,8 @@ import com_function as cf
 
 
 def validateUser(role, id):
-    dbCursor = cf.connect()
+    db = cf.connect()
+    dbCursor = db.cursor()
     dbCursor.execute(f"""SELECT * FROM {role} WHERE {role}_number = '{id}'""")
     user = dbCursor.fetchone()
     if user:
@@ -11,5 +12,5 @@ def validateUser(role, id):
         cf.warningWindow("Login failed")
         return False
     
-def registerStaff(id):
+#def registerStaff(id):
     
