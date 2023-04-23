@@ -6,6 +6,7 @@ from loginRegister import validateUser
 from com_function import connect
 
 from staffListing import staffListing
+from weeklyListing import weekly_listing
 from propertyRegisteredStaff import propertyList
 from lease import viewlease, leaseform
 from owner import ownerDashboard
@@ -364,7 +365,7 @@ class DreamHouse(tk.Frame):
                 db.commit()
 
             # Creating a button to submit client details
-            submit_button = tk.Button(client_reg_window, text="Submit", font=("Helvetica", 12), command=self.clientDashboard())
+            submit_button = tk.Button(client_reg_window, text="Submit", font=("Helvetica", 12), command=self.clientDashboard)
             submit_button.bind("<Button-1>", lambda event: registerClient(id, clientDetailsFrame, clientRequirementsFrame, client_f3))
             submit_button.grid(row=4, column=0,columnspan=2, pady=15)
 
@@ -539,7 +540,7 @@ class DreamHouse(tk.Frame):
         lease_btn.grid(row=0, column=3, padx=20, pady=20)
     
     def clientDashboard(self):
-
+        id=self.getId()
         client_dash_window = tk.Toplevel(self.master)
         client_dash_window.title("Staff Dashboard")
         client_dash_window.geometry("700x400")
@@ -557,6 +558,8 @@ class DreamHouse(tk.Frame):
 
         prop_listing_btn = tk.Button(client_dash_btns, text="Weekly Property Listing")
         prop_listing_btn.grid(row=0, column=0, padx=20, pady=20)
+        prop_listing_btn.bind("<Button-1>", lambda event:weekly_listing(id, client_dash_window))
+        
         property_listing_btn = tk.Button(client_dash_btns, text="Property Viewing Report")
         property_listing_btn.grid(row=0, column=1, padx=20, pady=20)
         property_listing_btn = tk.Button(client_dash_btns, text="Lease Form")
@@ -627,7 +630,7 @@ class DreamHouse(tk.Frame):
             prop_staff_entry = tk.Entry(owner_dash_window)
             prop_staff_entry.grid(column=1, row=9)
 
-            # managed by
+            # registered at branch
             prop_branch_label = tk.Label(owner_dash_window, text="Registed at branch:", font=("Helvetica", 10))
             prop_branch_label.grid(column=0, row=10)
             prop_branch_entry = tk.Entry(owner_dash_window)
