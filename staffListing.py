@@ -1,11 +1,7 @@
 import mysql.connector
 import os
 from dotenv import load_dotenv 
-
 import tkinter as tk
-from tkinter import ttk
-from tkinter import messagebox
-from subprocess import call
 
 load_dotenv()
 
