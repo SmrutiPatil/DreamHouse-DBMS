@@ -1,1 +1,0 @@
-client_reg_window
