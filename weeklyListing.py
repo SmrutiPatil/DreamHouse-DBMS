@@ -94,7 +94,7 @@ def weekly_listing(id, client_dash_board):
         weekly_report_window.geometry("400x400")
 
         prop_num_label = tk.Label(weekly_report_window, text=prop_no)
-        prop_num.grid(row=0, column =0) 
+        prop_num_label.grid(row=0, column =0) 
       
 
     # property_listing_btn = tk.Button(client_dash_board, text="Property Viewing Report")
