@@ -30,4 +30,11 @@ def warningWindow(message):
     
     root.mainloop()
     
-    
+def get_details(select_arg, table_name, id):
+    mydb = connect()
+    mycursor = mydb.cursor()
+    query = f"""SELECT {select_arg} FROM {table_name} Where {table_name}_number = '{id}'"""
+    print(query)
+    mycursor.execute(query)
+    branch_details = mycursor.fetchall()
+    return branch_details
