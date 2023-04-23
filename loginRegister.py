@@ -12,5 +12,4 @@ def validateUser(role, id):
         cf.warningWindow("Login failed")
         return False
     
-#def registerStaff(id):
-    
+
