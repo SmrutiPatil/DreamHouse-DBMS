@@ -267,8 +267,7 @@ class DreamHouse(tk.Frame):
                 
 
             # Creating a button to submit staff registration
-            submit_button = tk.Button(staff_reg_window, text="Submit", font=(
-                "Helvetica", 12), command=(self.staffDashboard))
+            submit_button = tk.Button(staff_reg_window, text="Submit", font=("Helvetica", 12),  bg="#614051", fg="white", command=(self.staffDashboard))
             submit_button.bind(
                 "<Button-1>", lambda event: registerStaff(id, staff_f1, staff_f2, staff_f3))
             submit_button.grid(row=4, column=0, columnspan=2, pady=15)
@@ -382,7 +381,8 @@ class DreamHouse(tk.Frame):
                 db.commit()
 
             # Creating a button to submit client details
-            submit_button = tk.Button(client_reg_window, text="Submit", font=("Helvetica", 12), command=self.clientDashboard)
+            submit_button = tk.Button(client_reg_window, text="Submit", font=(
+            "Helvetica", 12),  bg="#614051", fg="white", command=self.clientDashboard)
             submit_button.bind("<Button-1>", lambda event: registerClient(id, clientDetailsFrame, clientRequirementsFrame, client_f3))
             submit_button.grid(row=4, column=0,columnspan=2, pady=15)
 
@@ -487,7 +487,7 @@ class DreamHouse(tk.Frame):
 
             # Creating a button to submit owner details
             submit_button = tk.Button(owner_reg_window, text="Submit", font=(
-                "Helvetica", 12), command=self.ownerDashboard)
+            "Helvetica", 12),  bg="#614051", fg="white", command=self.ownerDashboard)
             submit_button.bind("<Button-1>", lambda event: registerOwner(id, ownerDetailsFrame ))
             submit_button.grid(row=3, column=0, columnspan=2, pady=15)
 
@@ -573,13 +573,16 @@ class DreamHouse(tk.Frame):
         client_dash_btns=tk.Frame(client_dash_window)
         client_dash_btns.grid(row=1, column=0)
 
-        prop_listing_btn = tk.Button(client_dash_btns, text="Weekly Property Listing")
+        prop_listing_btn = tk.Button(client_dash_btns, text="Weekly Property Listing" , font=(
+            "Helvetica", 12),  bg="#614051", fg="white")
         prop_listing_btn.grid(row=0, column=0, padx=20, pady=20)
         prop_listing_btn.bind("<Button-1>", lambda event:weekly_listing(id, client_dash_window))
         
-        property_listing_btn = tk.Button(client_dash_btns, text="Property Viewing Report")
+        property_listing_btn = tk.Button(client_dash_btns, text="Property Viewing Report" , font=(
+            "Helvetica", 12),  bg="#614051", fg="white")
         property_listing_btn.grid(row=0, column=1, padx=20, pady=20)
-        property_listing_btn = tk.Button(client_dash_btns, text="Lease Form")
+        property_listing_btn = tk.Button(client_dash_btns, text="Lease Form" , font=(
+            "Helvetica", 12),  bg="#614051", fg="white")
         property_listing_btn.grid(row=0, column=2, padx=20, pady=20)
     
     def ownerDashboard(self):
@@ -664,14 +667,106 @@ class DreamHouse(tk.Frame):
                 db.commit()
 
             # Creating a button to submit client details
-            submit_button = tk.Button(owner_dash_window, text="Submit", font=("Helvetica", 12))
+            submit_button = tk.Button(owner_dash_window, text="Submit", font=(
+            "Helvetica", 12),  bg="#614051", fg="white")
             submit_button.bind("<Button-1>", lambda event: registerPropertyBtn(owner_dash_window))
             submit_button.grid(column=0, row=11, pady=20)
 
-        prop_reg_btn=tk.Button(owner_dash_window, text="Register Property", command=registerProperty)
+        def propertyownerListing():
+            mysqldb = connect()
+            mycursor = mysqldb.cursor()
+
+            owner_number=self.getId()
+            ownProp_f2= tk.Toplevel(owner_dash_window)
+            ownProp_f2.title("Owner Property Listing")
+            ownProp_f2.geometry("800x400")
+            ownProp_f2.resizable(False, False)
+
+            owner_heading = tk.Frame(ownProp_f2)
+            owner_heading.grid(row=0, column=0, columnspan=4,
+                            padx=10, sticky="nsew")
+
+            owner_heading_title = tk.Label(owner_heading, text="Owner property Listing", font=(
+            "Helvetica", 15), bg="#614051", fg="white", width=80)
+            owner_heading_title.pack(pady=20)
+
+
+            sql1 = ("SELECT property_number , type , rooms , concat(Pstreet , pcity , Ppincode ) as address , managed_By , registered_at_branch , is_rented FROM property where owner_num= %s")
+            mycursor.execute(sql1, [owner_number])
+            property_details = mycursor.fetchall()
+        
+            displayFrame = tk.Frame(ownProp_f2)
+            displayFrame.grid(row = "2" , column="0")
+
+            owner_propNo_label = tk.Label(displayFrame, text="Property Number", font=("Helvetica", 10, "bold"))
+            owner_propNo_label.grid(row="2", column="0")
+
+# Name
+            type_label = tk.Label(displayFrame, text="Type", font=("Helvetica", 10,"bold"))
+            type_label.grid(column=1, row=2, padx=10)
+
+# Position
+            rooms_label = tk.Label(displayFrame, text="Rooms", font=("Helvetica", 10,"bold"))
+            rooms_label.grid(column=2, row=2, padx=10)
+
+            # adress
+            address_label = tk.Label(displayFrame, text="Adsress", font=("Helvetica", 10,"bold"))
+            address_label.grid(column=3, row=2, padx=10)
+
+            # Managed by
+            managed_label = tk.Label(displayFrame, text="Managed By", font=("Helvetica", 10,"bold"))
+            managed_label.grid(column=4, row=2, padx=10)
+
+            # registered at
+            registered_label = tk.Label(displayFrame, text="Registered At", font=("Helvetica", 10,"bold"))
+            registered_label.grid(column=5, row=2, padx=10)
+
+            # isRented
+            isRented_label = tk.Label(displayFrame, text="Is Rented", font=("Helvetica", 10,"bold"))
+            isRented_label.grid(column=6, row=2, padx=10)
+
+
+            for i in range(len(property_details)):
+                # print(f"{staff[0]}, {staff[1]}, {staff[2]}")
+
+                # Staff Numbers
+                branch_name_label = tk.Label(displayFrame, text=property_details[i][0], font=("Helvetica", 10))
+                branch_name_label.grid(column=0, row=i+4, padx=10)
+
+                # Name
+                branch_name_label = tk.Label(displayFrame, text=property_details[i][1], font=("Helvetica", 10))
+                branch_name_label.grid(column=1, row=i+4, padx=10)
+
+                # Position
+                branch_name_label = tk.Label(displayFrame, text=property_details[i][2], font=("Helvetica", 10))
+                branch_name_label.grid(column=2, row=i+4, padx=10)
+
+                # address
+                branch_name_label = tk.Label(displayFrame, text=property_details[i][3], font=("Helvetica", 10))
+                branch_name_label.grid(column=3, row=i+4, padx=10)
+
+                # managed by
+                branch_name_label = tk.Label(displayFrame, text=property_details[i][4], font=("Helvetica", 10))
+                branch_name_label.grid(column=4, row=i+4, padx=10)
+
+                # registered at
+                branch_name_label = tk.Label(displayFrame, text=property_details[i][5], font=("Helvetica", 10))
+                branch_name_label.grid(column=5, row=i+4, padx=10)
+
+                # is rented
+                branch_name_label = tk.Label(displayFrame, text=property_details[i][6], font=("Helvetica", 10))
+                branch_name_label.grid(column=6, row=i+4, padx=10)
+
+        prop_reg_btn = tk.Button(
+        owner_dash_window, text="Register Property", command=registerProperty ,font=(
+            "Helvetica", 12), bg="#614051", fg="white")
         prop_reg_btn.grid(row=1, column=0, pady=15)
-        prop_view_btn=tk.Button(owner_dash_window, text="View registered properties")
+
+        prop_view_btn = tk.Button(owner_dash_window, text="View registered properties", font=(
+            "Helvetica", 12),  bg="#614051", fg="white",command=propertyownerListing)
+        
         prop_view_btn.grid(row=1, column=1, pady=15)
+
                 
 if __name__ == "__main__":
     root = tk.Tk()
