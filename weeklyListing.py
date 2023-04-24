@@ -80,27 +80,43 @@ def weekly_listing(id, client_dash_board):
         prop_rent_label = tk.Label(prop_f1, text=prop_details[i][4], font=("Helvetica", 10))
         prop_rent_label.grid(column=4, row=i+1, padx=15)
 
-        property_listing_btn = tk.Button(prop_f1, text="Property Viewing Report")
-        property_listing_btn.grid(row=i+1, column=5, padx=15)
+    def weeklyreport(id, client_dash_board):
+        staff_num=id
+        sql=("select property_number, comment_date, comment from property_report where client_number =%s;")
+        mycursor.execute(sql, [staff_num])
+        prop_details = mycursor.fetchall()
 
-        prop_num = prop_details[i][0]
-
-        property_listing_btn.bind("<Button-1>", lambda event: weeklyreport(prop_num, id))
-        print(i,": ",prop_details[i][0])
-
-    def weeklyreport(prop_no, id):
         weekly_report_window=tk.Toplevel(client_dash_board)
         weekly_report_window.title("Property Viewing Report: ")
-        weekly_report_window.geometry("400x400")
+        weekly_report_window.geometry("500x400")
 
-        prop_num_label = tk.Label(weekly_report_window, text=prop_no)
-        prop_num_label.grid(row=0, column =0) 
-      
+        prop_f1=tk.Frame(weekly_report_window)
+        prop_f1.grid(row=0, column=0, pady=15)
 
-    # property_listing_btn = tk.Button(client_dash_board, text="Property Viewing Report")
-    # property_listing_btn.grid(row=4, column=0)
+        prop_num_label = tk.Label(prop_f1, text="Property Num", font=("Helvetica", 10, "bold"))
+        prop_num_label.grid(column=0, row=0, padx=15)                                         
 
-    # property_listing_btn.bind("<Button-1>", lambda event: weeklyreport(id, client_dash_board))
+        prop_date_label = tk.Label(prop_f1, text="Comment Date", font=("Helvetica", 10,"bold"))
+        prop_date_label.grid(column=1, row=0, padx=15)
+
+        prop_comment_label = tk.Label(prop_f1, text="Comment", font=("Helvetica", 10,"bold"))
+        prop_comment_label.grid(column=2, row=0, padx=15)
+
+        for i in range(len(prop_details)):
+            prop_num_label = tk.Label(prop_f1, text=prop_details[i][0], font=("Helvetica", 10))
+            prop_num_label.grid(column=0, row=i+1, padx=15)
+
+            prop_date_label = tk.Label(prop_f1, text=prop_details[i][1], font=("Helvetica", 10))
+            prop_date_label.grid(column=1, row=i+1, padx=15)
+
+            prop_comment_label = tk.Label(prop_f1, text=prop_details[i][2], font=("Helvetica", 10))
+            prop_comment_label.grid(column=2, row=i+1, padx=15)
+
+
+    property_listing_btn = tk.Button(client_dash_board, text="Property Viewing Report")
+    property_listing_btn.grid(row=4, column=0)
+
+    property_listing_btn.bind("<Button-1>", lambda event: weeklyreport(staff_num, client_dash_board))
 
 
 
