@@ -469,10 +469,10 @@ class DreamHouse(tk.Frame):
 
             business_radio_frame=tk.Frame(ownerDetailsFrame)
             business_radio_frame.grid(row=5, column=1)
-            radio_button_yes = tk.Radiobutton(business_radio_frame, text="Yes", value="Y",variable=var, command=radio_button_clicked)
+            radio_button_yes = tk.Radiobutton(business_radio_frame, text="Business", value="B",variable=var, command=radio_button_clicked)
             radio_button_yes.pack(side="left")
             radio_button_no = tk.Radiobutton(
-                business_radio_frame, text="No",variable=var, value="N")
+                business_radio_frame, text="Personal",variable=var, value="P")
             radio_button_no.pack(side="left")
 
             def registerOwner(id, ownerDetailsFrame):
