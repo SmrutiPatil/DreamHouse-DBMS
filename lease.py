@@ -13,9 +13,17 @@ mycursor = mysqldb.cursor()
 
 def viewlease(id, staff_dash_window):
     staff_num = id
-    sql=("select l.lease_number, l.client_number, l.property_number, timestampdiff(MONTH, Rent_Start, Rent_Finish) AS Rent_Duration_Months from lease l, client c where l.client_number=c.client_number and c.Registered_By_Staff=%s;")
-    mycursor.execute(sql, [staff_num])
-    lease_details= mycursor.fetchall()
+    
+    try:
+        sql=("select l.lease_number, l.client_number, l.property_number, timestampdiff(MONTH, Rent_Start, Rent_Finish) AS Rent_Duration_Months from lease l, client c where l.client_number=c.client_number and c.Registered_By_Staff=%s;")
+        mycursor.execute(sql, [staff_num])
+        lease_details= mycursor.fetchall()
+    except mysql.connector.Error as err:
+        warningWindow(err)
+        return
+    except Exception as err:
+        warningWindow(err)
+        return
 
     view_lease_window=tk.Toplevel(staff_dash_window)
     view_lease_window.title("Lease Details")
@@ -156,9 +164,22 @@ def leaseform(id, staff_dash_window):
                 query = f"""INSERT INTO lease (lease_number, client_number, property_number, payment_method, deposit_paid, rent_start, rent_finish) 
                 VALUES ('{args[0]}', '{args[1]}', '{args[2]}', '{args[3]}', '{args[4]}', '{args[5]}', '{args[6]}')"""
                 
+                query2 = f""""UPDATE property SET is_rented = 'Y', SET last_rented_out = '{args[6]}' WHERE property_number = '{args[2]}'"""
                 
-                dbCursor.execute(query)
-                db.commit()
+                
+                try:
+                    dbCursor.execute(query)
+                    db.commit()
+                    dbCursor.execute(query2)
+                    db.commit()
+                except mysql.connector.Error as err:
+                    warningWindow(err)
+                    return
+                except Exception as err:
+                    warningWindow(err)
+                    return
+                
+                warningWindow("Lease Registered Successfully")
 
     submit_button = tk.Button(lease_window, text="Register", font=("Helvetica", 12), bg="#614051", fg="white", width=10)
     submit_button.bind("<Button-1>", lambda event: registerLease(clientFrame, propFrame, paymentFrame, rentFrame))

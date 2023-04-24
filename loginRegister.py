@@ -21,6 +21,7 @@ def validateUser(role, id):
     dbCursor.execute(f"""SELECT * FROM {role} WHERE {role}_number = '{id}'""")
     user = dbCursor.fetchone()
     if user:
+        #cf.warningWindow("Login successful")
         return True
     else:
         cf.warningWindow("Login failed")

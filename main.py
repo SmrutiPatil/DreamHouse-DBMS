@@ -1,9 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+import mysql.connector
 from tkcalendar import *
 from loginRegister import validateUser
-from com_function import connect
+from com_function import connect, warningWindow
 
 from staffListing import staffListing
 from weeklyListing import weekly_listing
@@ -252,16 +253,27 @@ class DreamHouse(tk.Frame):
                 query2 = f"""INSERT INTO assistant (staff_number, Supervisor_Number)
                                 VALUES ("{args[0]}", "{args[1]}")"""
 
-                dbCursor.execute(query)
-                db.commit()
-                
-                if(position_entry.get().lower()=="manager"):
-                    dbCursor.execute(query1)
+                try:
+                    user = dbCursor.execute(query)
                     db.commit()
                     
-                elif(position_entry.get().lower()=="assistant"):
-                  dbCursor.execute(query2)   
-                  db.commit()                   
+                    if(position_entry.get().lower()=="manager"):
+                        dbCursor.execute(query1)
+                        db.commit()
+                        
+                    elif(position_entry.get().lower()=="assistant"):
+                        dbCursor.execute(query2)   
+                        db.commit() 
+                except mysql.connector.errors.IntegrityError:
+                    warningWindow("Staff already exists")
+                    return
+                except Exception as e:
+                    warningWindow(e)
+                    return
+                    
+                warningWindow("Staff Registered Successfully    ")
+                  
+                               
 
                 
 
@@ -376,8 +388,18 @@ class DreamHouse(tk.Frame):
                 query = f"""INSERT INTO client (client_number, full_name, branch_number, registered_by_staff, Date_registered, ptype, max_prent) 
                                 VALUES ("{args[0]}", "{args[1]}", "{args[2]}", "{args[3]}", "{args[4]}", "{args[5]}", "{args[6]}")"""
                 #print(query)
-                dbCursor.execute(query)
-                db.commit()
+                
+                try:
+                    dbCursor.execute(query)
+                    db.commit()
+                except mysql.connector.Error as err:
+                    warningWindow(err)
+                    return
+                except Exception as err:
+                    warningWindow(err)
+                    return
+                
+                warningWindow("Client registered successfully")
 
             # Creating a button to submit client details
             submit_button = tk.Button(client_reg_window, text="Submit", font=(
@@ -481,8 +503,18 @@ class DreamHouse(tk.Frame):
                 query = f"""INSERT INTO owner (Owner_Number, Personal_or_Business_name, Is_Business,OAddress, OCity, OPincode, Telephone_Number) 
                                 VALUES ("{args[0]}", "{args[1]}", "{args[2]}", "{args[3]}", "{args[4]}", "{args[5]}", "{args[6]}")"""
                 #print(query)
-                dbCursor.execute(query)
-                db.commit()
+                
+                try:
+                    dbCursor.execute(query)
+                    db.commit()
+                except mysql.connector.Error as err:
+                    warningWindow(err)
+                    return
+                except Exception as err:
+                    warningWindow(err)
+                    return
+                
+                warningWindow("Owner Registered Successfully")
 
             # Creating a button to submit owner details
             submit_button = tk.Button(owner_reg_window, text="Submit", font=(
@@ -583,6 +615,7 @@ class DreamHouse(tk.Frame):
         lease_view_btn.bind("<Button-1>", lambda event:viewClientLease(id, client_dash_window))
     
     def ownerDashboard(self):
+        id = self.getId()
         owner_dash_window = tk.Toplevel(self.master)
         owner_dash_window.title("Owner Dashboard")
         owner_dash_window.geometry("600x400")
@@ -656,12 +689,21 @@ class DreamHouse(tk.Frame):
             def registerPropertyBtn(owner_dash_window):
                 db = connect()
                 dbCursor = db.cursor()
-                args = [prop_num_entry.get(), prop_type_entry.get(), prop_rooms_entry.get(), prop_str_entry.get(), prop_city_entry.get(), prop_pincode_entry.get(), prop_staff_entry.get(), prop_branch_entry.get(), prop_rent_entry.get()]
-                query = f"""INSERT INTO property (property_number, type, rooms, pstreet, pcity, ppincode, managed_by, registered_at_branch, rent, is_rented, last_rented_out) 
-                                VALUES ("{args[0]}", "{args[1]}", "{args[2]}", "{args[3]}", "{args[4]}", "{args[5]}", "{args[6]}", "{args[7]}", "{args[8]}", "N", NULL)"""
+                args = [prop_num_entry.get(), prop_type_entry.get(), prop_rooms_entry.get(), prop_str_entry.get(), prop_city_entry.get(), prop_pincode_entry.get(), prop_staff_entry.get(), prop_branch_entry.get(), prop_rent_entry.get(), id]
+                query = f"""INSERT INTO property (property_number, type, rooms, pstreet, pcity, ppincode, managed_by, registered_at_branch, rent, is_rented, last_rented_out, owner_num) 
+                                VALUES ("{args[0]}", "{args[1]}", "{args[2]}", "{args[3]}", "{args[4]}", "{args[5]}", "{args[6]}", "{args[7]}", "{args[8]}", "N", NULL, "{args[9]}")"""
                 #print(query)
-                dbCursor.execute(query)
-                db.commit()
+                try:
+                    dbCursor.execute(query)
+                    db.commit()
+                except mysql.connector.Error as err:
+                    warningWindow(err)
+                    return
+                except Exception as err:
+                    warningWindow(err)
+                    return
+                
+                warningWindow("Property Registered Successfully")
 
             # Creating a button to submit client details
             submit_button = tk.Button(owner_dash_window, text="Submit", font=(

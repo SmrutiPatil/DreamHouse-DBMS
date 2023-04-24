@@ -17,3 +17,6 @@ where Registered_At_Branch = (select Branch_Number from client where Client_Numb
 
 select Branch_Number, CONCAT(BStreet, ', ', BCity, ', ', BPincode), BPhone_Number 
 from branch where branch_number = (select Branch_Number from client where Client_Number="C0002" );
+
+-- 5]UpdatingPropertyStatus:
+UPDATE property SET is_rented = 'Y', SET last_rented_out = '2023-05-24' WHERE property_number = 'P0002'
