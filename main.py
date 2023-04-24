@@ -9,8 +9,7 @@ from com_function import connect, warningWindow
 from staffListing import staffListing
 from weeklyListing import weekly_listing
 from propertyRegisteredStaff import propertyList
-from lease import viewlease, leaseform
-from owner import ownerDashboard
+from lease import viewlease, leaseform, viewClientLease
 
 
 class DreamHouse(tk.Frame):
@@ -610,8 +609,10 @@ class DreamHouse(tk.Frame):
         prop_listing_btn.grid(row=0, column=0, padx=20, pady=20)
         prop_listing_btn.bind("<Button-1>", lambda event:weekly_listing(id, client_dash_window))
 
-        property_listing_btn = tk.Button(client_dash_btns, text="Lease Form")
-        property_listing_btn.grid(row=0, column=1, padx=20, pady=20)
+        lease_view_btn = tk.Button(client_dash_btns, text="View Property Leases", font=(
+            "Helvetica", 12),  bg="#614051", fg="white")
+        lease_view_btn.grid(row=0, column=1, padx=20, pady=20)
+        lease_view_btn.bind("<Button-1>", lambda event:viewClientLease(id, client_dash_window))
     
     def ownerDashboard(self):
         id = self.getId()
@@ -748,7 +749,7 @@ class DreamHouse(tk.Frame):
             rooms_label.grid(column=2, row=2, padx=10)
 
             # adress
-            address_label = tk.Label(displayFrame, text="Adsress", font=("Helvetica", 10,"bold"))
+            address_label = tk.Label(displayFrame, text="Address", font=("Helvetica", 10,"bold"))
             address_label.grid(column=3, row=2, padx=10)
 
             # Managed by
@@ -802,7 +803,6 @@ class DreamHouse(tk.Frame):
 
         prop_view_btn = tk.Button(owner_dash_window, text="View registered properties", font=(
             "Helvetica", 12),  bg="#614051", fg="white",command=propertyownerListing)
-        
         prop_view_btn.grid(row=1, column=1, pady=15)
 
                 
