@@ -30,7 +30,6 @@ where Registered_At_Branch="B003" and staff_name="John Doe";
  where c.Branch_Number="B001"
  and c.Registered_By_Staff=s.staff_number;
  
- -- - done till here
  
  #Identify properties located in Seattle with rents no higher than £450.
 select p.property_number,Pstreet,PCity,PPincode,type,rent,managed_by,owner_num,registered_at_branch,BCity

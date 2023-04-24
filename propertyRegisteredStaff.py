@@ -2,6 +2,7 @@ import mysql.connector
 import os
 from dotenv import load_dotenv 
 import tkinter as tk
+from com_function import warningWindow, connect
 
 load_dotenv()
 
@@ -10,9 +11,17 @@ mycursor = mysqldb.cursor()
 
 def propertyList(id, staff_dash_window):
     staff_num = id
-    sql = ("select property_number, owner_num, is_rented from property where managed_by = %s;")
-    mycursor.execute(sql, [staff_num])
-    prop_details = mycursor.fetchall()
+    try:
+        sql = ("select property_number, owner_num, is_rented from property where managed_by = %s;")
+        mycursor.execute(sql, [staff_num])
+        prop_details = mycursor.fetchall()
+    except mysql.connector.Error as err:
+                    warningWindow(err)
+                    return
+    except Exception as err:
+        warningWindow(err)
+        return
+    
 
     staff_f1= tk.Frame(staff_dash_window)
     staff_f1.grid(row=2, column=0, padx=10)
