@@ -37,7 +37,7 @@ select x.staff_name
 from staff x, assistant a, staff s
 where s.staff_name = "Amy Brown" and a.supervisor_number = s.staff_number and x.staff_number = a.staff_number;
 
-#List the property number, address, type, and rent of all properties in Glasgow, ordered by rental amount
+#List the property number, address, type, and rent of all properties in New York, ordered by rental amount
 select property_number, concat_ws(" ",PStreet, PCity, PPincode) as Address, rent 
 from property, branch
 where BCity="New York" and Branch_Number=Registered_At_Branch
@@ -76,7 +76,7 @@ GROUP BY owner.Owner_Number
 HAVING COUNT(property.Property_Number) > 1;
 
 
-# Identify flats with at least three rooms and with a monthly rent no higher than £1500 in atlanta.
+# Identify flats with at least three rooms and with a monthly rent no higher than £1500 in Atlanta.
 select property_number,concat_ws(" ", Pstreet, PCity, PPincode) as address, type,rent,managed_by,owner_num,registered_at_branch,is_rented,Last_rented_out
  from property,branch
  where type="flat" and rooms>=3 and rent<1500 and Registered_At_Branch=Branch_Number and BCity="Atlanta";
@@ -89,6 +89,12 @@ select property_number,concat_ws(" ", Pstreet, PCity, PPincode) as address, type
 
 
 #Identify the properties that have been advertised more than the average number of times.
+-- property will be advertised once every month if it is not rented out.
+with avgTS(timeStamp) as (Select avg(abs(timestampdiff(MONTH,curdate(),last_rented_out)))
+from property)
+select property_number, type, rent, managed_by, abs(timestampdiff(MONTH,curdate(),last_rented_out)) as advertise_for_months
+from property, avgTS
+where abs(timestampdiff(MONTH,curdate(),last_rented_out))>timeStamp;
 
 #List the details of leases due to expire next month at a given branch.
 Select *

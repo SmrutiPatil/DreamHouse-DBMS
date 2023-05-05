@@ -87,7 +87,7 @@ CREATE TABLE Lease (
   Property_Number char(5) references property(property_number),
   Payment_method varchar(30),
   Deposit_Paid char,
-  Rent_Start date,
+  Rent_Start date,department
   Rent_Finish date,
   PRIMARY KEY (Lease_Number)
 );
